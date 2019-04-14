@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/insectDiseaseInformation.css">
+</head>
+<body>
+<div class="nav">
+    <span class="layui-breadcrumb">
+        <a><cite class="size">当前位置：</cite></a>
+        <a><cite class="size">资料管理</cite></a>
+        <a><cite class="size">病害一览</cite></a>
+    </span>
+</div>
+<div class="find">
+    <p class="info">查询病害信息</p>
+    <div class="findInfo">
+        <!--<form action="" class="layui-form">-->
+        <div class="layui-form-item infoItem">
+            <div class="layui-inline infoItem">
+                <label class="layui-form-label">病害名</label>
+                <div class="layui-input-inline">
+                    <input type="tel" name="phone" placeholder="请输入病害名" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline infoItem">
+                <label class="layui-form-label">发病症状</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="email" placeholder="发病症状" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <!--</form>-->
+    </div>
+    <div class="findBtn" style="float: left">
+        <button class="layui-btn layui-icon layui-icon-search findBtn" lay-submit>查 找</button>
+    </div>
+</div>
+<div class="out">
+    <div class="table"><table id="demo" lay-filter="test"></table></div>
+    <div class="btn">
+        <button class="layui-btn layui-btn-lg layui-icon layui-icon-add-1 add">添加新病害</button>
+        <button class="layui-btn layui-btn-lg layui-icon layui-icon-find-fill information">查看详细信息</button>
+    </div>
+</div>
+<script src="../../js/jquery-3.3.1.min.js"></script>
+<script src="../js/insectDiseaseInformation.js"></script>
+<script src="../../layui/layui.all.js"></script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#demo'
+            ,height: 350
+            ,url: '../json/data.json' //数据接口
+            ,page: true //开启分页
+            ,cols: [[ //表头
+                {field: 'id', title: '名称',sort: true, fixed: 'left'}
+                ,{field: 'username', title: '主要危害'}
+                ,{field: 'sex', title: '发病率',sort: true}
+                ,{field: 'city', title: '发病规律'}
+                // ,{field: 'sign', title: '优势树种', width: 240}
+                // ,{field: 'experience', title: '负责小班', width: 100, sort: true}
+                // ,{field: 'score', title: '评分', width: 100, sort: true}
+                // ,{field: 'classify', title: '职业', width: 100}
+                // ,{field: 'wealth', title: '财富', width: 135, sort: true}
+            ]]
+        });
+    });
+</script>
+</body>
+</html>

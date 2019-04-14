@@ -1,0 +1,51 @@
+body{
+    width: 80%;
+    margin: 0px auto;
+}
+.out{
+    width: 900px;
+    margin:0px auto;
+    position: relative;
+}
+.top{
+    text-align: center;
+}
+.find{
+    width: 350px;
+    height: 150px;
+    border: 1px black solid;
+    padding-top: 15px;
+    padding-left: 10px;
+    text-align: center;
+    line-height: 80px;
+    position: absolute;
+    left: 500px;
+    top: 400px;
+}
+.btn{
+    position: absolute;
+    width: 150px;
+    height: 50px;
+}
+#add{
+    left:60px;
+    top: 400px;
+}
+#show{
+    left: 260px;
+    top: 400px;
+}
+#update{
+    left:60px;
+    top: 500px;
+}
+
+.input{
+    width: 150px;
+}
+
+.show{
+    position: absolute;
+    left: 5px;
+    width: 100px;
+}

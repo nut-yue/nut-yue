@@ -1,0 +1,77 @@
+/*div{*/
+    /*outline: 1px red solid;*/
+/*}*/
+body{
+    /*background-image: url("../image/Dror_Parkorman_04_Plaza.gif");*/
+    /*text-align: center;*/
+    /*background-size: 100% 100%;*/
+    /*height: 100%;*/
+    /*overflow: hidden;*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center;*/
+    /*background-attachment: fixed;*/
+}
+.top{
+    width: 100%;
+    height: 50px;
+    background-color: #647493;
+    line-height: 50px;
+    color: #FFFDF8;
+}
+.top h1{
+    margin-left: 100px;
+}
+.loginForm{
+    width: 500px;
+    height: 300px;
+    border: 1px #CCCCCC solid;
+    border-radius: 30px;
+    margin: 100px auto;
+}
+.loginTop{
+    width: 500px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #F7F7F7;
+    border-bottom: 1px #CCCCCC solid;
+
+}
+.loginTop p{
+    color: #333333;
+    margin-left: 30px;
+}
+.content{
+    width: 100%;
+    height: 270px;
+    overflow: hidden;
+}
+.content p{
+    font-weight: bold;
+    margin-top: 30px;
+}
+.content input{
+    margin-top: 10px;
+    width: 300px;
+    height: 30px;
+}
+.content p,input{
+    margin-left: 30px;
+}
+.btn{
+    width: 100%;
+    height: 30px;
+    margin-top: 30px;
+
+}
+.btn button{
+    width: 80px;
+    height: 100%;
+    color: #F7F7F7;
+    background-color: #495164;
+}
+.reset{
+    margin-left: 300px;
+}
+.loginSubmit{
+    margin-left: 30px;
+}

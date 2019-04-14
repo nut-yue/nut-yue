@@ -1,0 +1,59 @@
+
+.nav{
+    height: 50px;
+    line-height: 50px;
+}
+.size{
+    font-size:16px;
+}
+.layui-input{
+    width: 300px;
+}
+.selStage,.selLocation{
+    margin-left: 0;
+    margin-bottom: 15px;
+}
+.content{
+    width: 300px;
+}
+.left_input{
+    position: relative;
+    left: 100px;
+}
+.right_input{
+    position: relative;
+    left: -50px;
+}
+.left{
+    width: 50%;
+    position: relative;
+    float: left;
+    top: 100px;
+}
+.right{
+    width: 50%;
+    position: relative;
+    float: left;
+    top: 100px;
+}
+#demo1{
+    width: 218px;
+    height: 100px;
+    outline: 0px solid #D6D6D6;
+    position: absolute;
+    top: -60px;
+    left: 190px;
+}
+.add{
+    width: 150px;
+    height: 40px;
+    position: relative;
+    top: 10px;
+}
+.back{
+    width: 150px;
+    height: 40px;
+    position: relative;
+    top: 60px;
+    left: -163px;
+}

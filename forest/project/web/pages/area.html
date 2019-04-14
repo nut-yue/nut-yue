@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>区域一览</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/area.css">
+</head>
+<body>
+<div class="nav">
+        <span class="layui-breadcrumb">
+          <a href="">灾情防治</a>
+          <a><cite>区域一览</cite></a>
+        </span>
+</div>
+<div class="out">
+    <div class="table"><table id="demo" lay-filter="test"></table></div>
+    <div><button class="btn layui-btn">添加区域</button></div>
+    <div class="find">
+        <form class="layui-form" action="">
+            <div class="layui-form-item check">
+                <label class="layui-form-label">选择框</label>
+                <div class="layui-input-block input">
+                    <select name="city" lay-verify="required">
+                        <option value=""></option>
+                        <option value="0">雅安</option>
+                        <option value="1">卧龙</option>
+                        <option value="2">林种</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item check">
+                <label class="layui-form-label">输入框</label>
+                <div class="layui-input-block input">
+                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入内容" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn show" lay-submit lay-filter="formDemo">查询</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="../layui/layui.all.js"></script>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script>
+    $(".btn").click(function () {
+        window.location.href="addArea.html"
+    });
+</script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#demo'
+            ,height: 350
+            ,url: '../json/data.json' //数据接口
+            ,page: true //开启分页
+            ,cols: [[ //表头
+                {field: 'id', title: 'ID', width:240, sort: true, fixed: 'left'}
+                ,{field: 'username', title: '区域名称', width:240}
+                ,{field: 'sex', title: '林种', width:240, sort: true}
+                ,{field: 'city', title: '地类', width:240}
+                ,{field: 'sign', title: '优势树种', width: 240}
+                // ,{field: 'experience', title: '负责小班', width: 100, sort: true}
+                // ,{field: 'score', title: '评分', width: 100, sort: true}
+                // ,{field: 'classify', title: '职业', width: 100}
+                // ,{field: 'wealth', title: '财富', width: 135, sort: true}
+            ]]
+        });
+    });
+</script>
+</body>
+</html>
