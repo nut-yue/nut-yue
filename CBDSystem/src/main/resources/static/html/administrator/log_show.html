@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>日志记录</title>
+    <!--峗权-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/administrator/log_show.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <div class="findBtn">
+            <el-row>
+                <el-col :span="24">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-select v-model="logType" clearable placeholder="请选择" class="search">
+                            <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                        <el-input v-model="logOperator" placeholder="操作人" class="addressInput"></el-input>
+                        <el-input v-model="logContent" placeholder="操作内容" class="addressInput"></el-input>
+                        <el-button type="primary" round @click="find" class="search">查询</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    label="时间"
+                    align="center">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.logDate }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="IP地址"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.logIpAddress }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="操作人"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.logOperator }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="内容"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.logContent }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="类型"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.logType }}</span>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+    </template>
+</div>
+
+
+<script src="../../js/administrator/log_show.js"></script>
+
+</body>
+</html>

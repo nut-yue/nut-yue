@@ -1,0 +1,150 @@
+<!--岳超-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计费账单</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/administrator/bill_showBill.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <div class="findBtn">
+            <el-row>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-tag type="warning">
+                            <i class="el-icon-zoom-in"></i>
+                            <span style="margin-left: 10px">账单总收入：{{money.getMoney}}</span>
+                        </el-tag>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-tag type="success">
+                            <i class="el-icon-zoom-out"></i>
+                            <span style="margin-left: 10px">账单总支出：{{money.payMoney}}</span>
+                        </el-tag>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-tag>
+                            <i class="el-icon-edit"></i>
+                            <span style="margin-left: 10px">交易总笔数：{{money.dealSum}}</span>
+                        </el-tag>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-tag type="danger">
+                            <i class="el-icon-success"></i>
+                            <span style="margin-left: 10px">合计总金额：{{money.getMoneySum}}</span>
+                        </el-tag>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-date-picker
+                                v-model="value7"
+                                type="daterange"
+                                align="right"
+                                unlink-panels
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                :picker-options="pickerOptions2"
+                                value-format="yyyy-MM-dd"
+                                class="search">
+                        </el-date-picker>
+                        <el-select v-model="value4" clearable placeholder="请选择" class="search">
+                            <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                        <el-button type="primary" round @click="find" class="search">查询</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    label="交易日期"
+                    align="center">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.companyBillDate }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="收支情况"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.companyBillMoney }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="交易类型"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.companyBillPactType }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作"
+                             align="center">
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            @click="handleEdit(scope.$index, scope.row)">查看账单详情
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 15, 20, 25]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+        <el-dialog title="账单详情" :visible.sync="centerDialogVisible">
+            <el-form :model="form">
+                <el-form-item label="合同编号：" :label-width="formLabelWidth">
+                    {{form.tenantryContractNum}}
+                </el-form-item>
+                <el-form-item label="合同生效日期" :label-width="formLabelWidth">
+                    {{form.tenantryStartTime}}
+                </el-form-item>
+                <el-form-item label="合同截止日期" :label-width="formLabelWidth">
+                    {{form.tenantryEndTime}}
+                </el-form-item>
+                <el-form-item label="合同状态" :label-width="formLabelWidth">
+                    {{form.tenantryContractStatus}}
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+    </template>
+</div>
+<script src="../../js/administrator/bill_showBill.js"></script>
+</body>
+</html>

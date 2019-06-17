@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<!--岳超-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>租车位</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/user/carport_allCarport.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <el-row>
+            <el-col :span="24">
+                <div class="grid-content search">
+                    <el-select v-model="value4" clearable placeholder="请选择" class="search">
+                        <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                    <el-button type="primary" round @click="find" class="search">查询</el-button>
+                </div>
+            </el-col>
+        </el-row>
+        <el-divider><i class="el-icon-search"></i>&nbsp;&nbsp;搜索我的车位</el-divider>
+        <div class="showImg">
+            <el-card v-for="(o, index) in showCarport" :key="index" :body-style="{ padding: '0px' }">
+                <div class="imgDiv">
+                    <img :src="'../../image/user/'+o.carportImage" class="image">
+                </div>
+                <div style="padding: 14px;">
+                    <span>车位地址：{{o.carportAddress}}</span></br>
+                    <span>车位状态：{{o.carportStatus}}</span>
+                    <div class="bottom clearfix">
+                        <el-button type="primary" class="button" @click="showInfo(o)" align="center">查看详情</el-button>
+                    </div>
+                </div>
+            </el-card>
+        </div>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="currentPage"
+                    :page-size="pageSize"
+                    layout="prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+        <el-dialog title="车位详情" :visible.sync="centerDialogVisible">
+            <div>
+                <el-form :model="form">
+                    <el-form-item label="车位地址：" :label-width="formLabelWidth">
+                        {{form.carportAddress}}
+                    </el-form-item>
+                    <el-form-item label="产权证编号：" :label-width="formLabelWidth">
+                        {{form.carportProperty}}
+                    </el-form-item>
+                    <el-form-item label="车位编号：" :label-width="formLabelWidth">
+                        {{form.carportNumber}}
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="rent">发布出租</el-button>
+                    <el-button type="primary" @click="sell">发布出售</el-button>
+                </div>
+            </div>
+        </el-dialog>
+        <el-dialog title="车位详情" :visible.sync="rentInfoDialogVisible">
+            <div>
+                <el-form :model="form">
+                    <el-form-item label="车位地址：" :label-width="formLabelWidth">
+                        {{form.carportAddress}}
+                    </el-form-item>
+                    <el-form-item label="产权证编号：" :label-width="formLabelWidth">
+                        {{form.carportProperty}}
+                    </el-form-item>
+                    <el-form-item label="车位编号：" :label-width="formLabelWidth">
+                        {{form.carportNumber}}
+                    </el-form-item>
+                    <el-form-item label="出租开始时间：" :label-width="formLabelWidth">
+                        {{form.rentStartDate}}
+                    </el-form-item>
+                    <el-form-item label="出租结束时间：" :label-width="formLabelWidth">
+                        {{form.rentEndDate}}
+                    </el-form-item>
+                    <el-form-item label="价格：" :label-width="formLabelWidth">
+                        {{form.rentPrice}}
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="checkout">下架</el-button>
+                </div>
+            </div>
+        </el-dialog>
+        <el-dialog title="车位详情" :visible.sync="saleInfoDialogVisible">
+        <div>
+            <el-form :model="form">
+                <el-form-item label="车位地址：" :label-width="formLabelWidth">
+                    {{form.carportAddress}}
+                </el-form-item>
+                <el-form-item label="产权证编号：" :label-width="formLabelWidth">
+                    {{form.carportProperty}}
+                </el-form-item>
+                <el-form-item label="车位编号：" :label-width="formLabelWidth">
+                    {{form.carportNumber}}
+                </el-form-item>
+                <el-form-item label="价格：" :label-width="formLabelWidth">
+                    {{form.salePrice}}
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="checkout">下架</el-button>
+            </div>
+        </div>
+    </el-dialog>
+        <el-dialog title="车位详情" :visible.sync="otherInfoDialogVisible">
+            <div>
+                <el-form :model="form">
+                    <el-form-item label="车位地址：" :label-width="formLabelWidth">
+                        {{form.carportAddress}}
+                    </el-form-item>
+                    <el-form-item label="产权证编号：" :label-width="formLabelWidth">
+                        {{form.carportProperty}}
+                    </el-form-item>
+                    <el-form-item label="车位编号：" :label-width="formLabelWidth">
+                        {{form.carportNumber}}
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="back">返回</el-button>
+                </div>
+            </div>
+        </el-dialog>
+        <el-dialog title="车位详情" :visible.sync="alreadyRentDialogVisible">
+            <div>
+                <el-form :model="form">
+                    <el-form-item label="车位地址：" :label-width="formLabelWidth">
+                        {{form.carportAddress}}
+                    </el-form-item>
+                    <el-form-item label="产权证编号：" :label-width="formLabelWidth">
+                        {{form.carportProperty}}
+                    </el-form-item>
+                    <el-form-item label="车位编号：" :label-width="formLabelWidth">
+                        {{form.carportNumber}}
+                    </el-form-item>
+                    <el-form-item label="出租开始时间：" :label-width="formLabelWidth">
+                        {{form.rentStartDate}}
+                    </el-form-item>
+                    <el-form-item label="出租结束时间：" :label-width="formLabelWidth">
+                        {{form.rentEndDate}}
+                    </el-form-item>
+                    <el-form-item label="价格：" :label-width="formLabelWidth">
+                        {{form.rentPrice}}
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="back">返回</el-button>
+                </div>
+            </div>
+        </el-dialog>
+        <el-dialog title="发布出租" :visible.sync="rentDialogVisible">
+            <div>
+                <el-form ref="form"  :model="form">
+                    <el-form-item label="车位地址：" :label-width="formLabelWidth">
+                        {{form.carportAddress}}
+                    </el-form-item>
+                    <el-form-item label="产权证编号：" :label-width="formLabelWidth">
+                        {{form.carportProperty}}
+                    </el-form-item>
+                    <el-form-item label="起始日期：" prop="date" :label-width="formLabelWidth">
+                        <el-date-picker
+                                v-model="value2"
+                                type="daterange"
+                                align="right"
+                                unlink-panels
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                value-format="yyyy-MM-dd"
+                                :picker-options="pickerOptions">
+                        </el-date-picker>
+                    </el-form-item>
+                    <el-form-item  prop="rentPrice" label="出租价格：" :label-width="formLabelWidth">
+                        <el-input  v-model="form.rentPrice">{{form.rentPrice}}</el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="confirmRent">发布</el-button>
+                </div>
+            </div>
+        </el-dialog>
+        <el-dialog title="发布出售" :visible.sync="saleDialogVisible">
+        <div>
+            <el-form ref="form" :model="form">
+                <el-form-item label="车位地址：" :label-width="formLabelWidth">
+                    {{form.carportAddress}}
+                </el-form-item>
+                <el-form-item label="车位编号：" :label-width="formLabelWidth">
+                    {{form.carportNumber}}
+                </el-form-item>
+                <el-form-item prop="salePrice" label="出售价格：" :label-width="formLabelWidth">
+                    <el-input v-model="form.salePrice">{{form.rentPrice}}</el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="confirmSell">发布</el-button>
+            </div>
+        </div>
+        </el-dialog>
+    </template>
+</div>
+</body>
+
+<script src="../../js/user/carport_allCarport.js"></script>
+</html>

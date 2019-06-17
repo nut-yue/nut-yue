@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>企业租户合约管理</title>
+    <!--陈玉婷-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/company/companyBill.css">
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <div class="grid-content bg-purple billInfo">
+            <el-button type="primary" round @click="listCompanyAndCart();dialogFormVisible = true" class="search">新增合约
+            </el-button>
+            <el-date-picker
+                    :span="24"
+                    type="daterange"
+                    align="right"
+                    unlink-panels
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    :picker-options="pickerOptions2"
+                    value-format="yyyy-MM-dd"
+                    class="search"
+                    v-model="date">
+            </el-date-picker>
+
+            <el-input v-model="name" placeholder="企业名称" class="addressInput" style="width: 200px;"></el-input>
+            <el-button type="primary" round @click="find" class="search">查询</el-button>
+        </div>
+
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    label="企业用户名称"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.tenantryUserName }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="成交价格"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.tenantryDealPrice }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="合同生效日期"
+                    align="center">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.tenantryStartTime }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="合同截止日期"
+                    align="center">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.tenantryEndTime }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                    label="状态"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.tenantryContractStatus }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作"
+                             align="center"
+                             width="300px">
+                <template slot-scope="scope">
+
+                    <el-button type="primary" @click="show(scope.$index, scope.row);dialogPrimaryVisible = true;">查看
+                    </el-button>
+
+                    <el-button type="primary" :disabled="scope.row.tenantryContractStatus!='已生效'"
+                               @click="show(scope.$index, scope.row);centerFromVisible=true;">续约
+                    </el-button>
+
+                    <template>
+                        <el-button type="danger" :disabled="scope.row.tenantryContractStatus!='已生效'"
+                                   @click="delet(scope.row.tenantryId)">解约
+                        </el-button>
+                    </template>
+
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+        <!-------------------------企业租户续约模态框 centerFromVisible------------------>
+
+        <el-dialog title="续约租户合约" :visible.sync="centerFromVisible">
+            <el-form :model="updateData">
+
+                <el-form-item label="企业用户名称：" :label-width="formLabelWidth">
+                    {{companyName}}
+                </el-form-item>
+                <el-form-item label="合同编号：" :label-width="formLabelWidth">
+                    <el-input placeholder="合同编号" v-model="updateData.tenantryContractNum" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="合同续约日期：" :label-width="formLabelWidth">
+                    <el-date-picker
+                            v-model="updateData.tenantryEndTime"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            placeholder="选择日期"
+                            @change="all()">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="成交价钱：" :label-width="formLabelWidth">
+                    <el-input placeholder="成交价钱" v-model="updateData.tenantryDealPrice" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="平台联系人：" :label-width="formLabelWidth">
+                    <!--{{updateData.tenantryLinkman}}-->
+                    <el-input placeholder="平台联系人" v-model="updateData.tenantryLinkman" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="平台联系电话：" :label-width="formLabelWidth">
+                    <!--{{updateData.tenantryLinkmanTel}}-->
+                    <el-input placeholder="平台联系电话" v-model="updateData.tenantryLinkmanTel"
+                              class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="企业联系人：" :label-width="formLabelWidth">
+                    <!--{{updateData.tenantryContact}}-->
+                    <el-input placeholder="企业联系人" v-model="updateData.tenantryContact" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="企业联系电话：" :label-width="formLabelWidth">
+                    <el-input placeholder="企业联系电话" v-model="updateData.tenantryPhone" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="添加车位：" :label-width="formLabelWidth">
+                    <el-select
+                            v-model="selectCart"
+                            multiple
+                            allow-create
+                            default-first-option
+                            placeholder="请选择">
+                        <el-option
+                                v-for="item in cars"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="extension();centerFromVisible = false">续约合约</el-button>
+            </div>
+        </el-dialog>
+        <!-------------------------租户签约模态框-->
+        <el-dialog title="查看租户合约" :visible.sync="dialogPrimaryVisible">
+            <el-form :model="showData">
+                <el-form-item label="业用户名称：" :label-width="formLabelWidth">
+                    {{showData.tenantryUserName}}
+                </el-form-item>
+                <el-form-item label="合同编号：" :label-width="formLabelWidth">
+                    {{showData.tenantryContractNum}}
+                </el-form-item>
+                <el-form-item label="合同生效日期：" :label-width="formLabelWidth">
+                    {{showData.tenantryStartTime}}
+                </el-form-item>
+                <el-form-item label="合同截止日期：" :label-width="formLabelWidth">
+                    {{showData.tenantryEndTime}}
+                </el-form-item>
+                <el-form-item label="成交价钱：" :label-width="formLabelWidth">
+                    {{showData.tenantryDealPrice}}
+                </el-form-item>
+
+                <el-form-item label="平台联系人：" :label-width="formLabelWidth">
+                    {{showData.tenantryLinkman}}
+                </el-form-item>
+                <el-form-item label="平台联系电话：" :label-width="formLabelWidth">
+                    {{showData.tenantryLinkmanTel}}
+                </el-form-item>
+                <el-form-item label="企业联系人：" :label-width="formLabelWidth">
+                    {{showData.tenantryContact}}
+                </el-form-item>
+                <el-form-item label="企业联系电话：" :label-width="formLabelWidth">
+                    {{showData.tenantryPhone}}
+                </el-form-item>
+
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogPrimaryVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!--</div>-->
+        <!-----------------------新增合约---------->
+        <el-dialog title="新增合约" :visible.sync="dialogFormVisible">
+            <el-form :model="showData">
+                <el-form-item label="企业用户名称：" :label-width="formLabelWidth">
+                    <el-select v-model="company_Id" clearable placeholder="请选择">
+                        <el-option
+                                v-for="item in comps"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="合同生效日期：" :label-width="formLabelWidth">
+                    <el-date-picker
+                            v-model="showData.tenantryStartTime"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="合同截止日期：" :label-width="formLabelWidth">
+                    <el-date-picker
+                            v-model="showData.tenantryEndTime"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            placeholder="选择日期"
+                            @change="selectCarts()">
+                    </el-date-picker>
+                </el-form-item>
+
+                <el-form-item label="添加车位：" :label-width="formLabelWidth">
+                    <el-select
+                            v-model="selectCart"
+                            multiple
+                            allow-create
+                            default-first-option
+                            placeholder="请选择">
+                        <el-option
+                                v-for="item in cars"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="合同编号：" :label-width="formLabelWidth">
+                    <el-input placeholder="合同编号" v-model="showData.tenantryContractNum" class="inputClass"></el-input>
+                </el-form-item>
+
+                <el-form-item label="成交价钱：" :label-width="formLabelWidth">
+                    <!--{{showData.tenantryDealPrice}}-->
+                    <el-input placeholder="成交价钱" v-model="showData.tenantryDealPrice" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="平台联系人：" :label-width="formLabelWidth">
+                    <!--{{showData.tenantryLinkman}}-->
+                    <el-input placeholder="平台联系人" v-model="showData.tenantryLinkman" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="平台联系电话：" :label-width="formLabelWidth">
+                    <!--{{showData.tenantryLinkmanTel}}-->
+                    <el-input placeholder="平台联系电话" v-model="showData.tenantryLinkmanTel" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="企业联系人：" :label-width="formLabelWidth">
+                    <!--{{showData.tenantryContact}}-->
+                    <el-input placeholder="企业联系人" v-model="showData.tenantryContact" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="企业联系电话：" :label-width="formLabelWidth">
+                    <el-input placeholder="企业联系电话" v-model="showData.tenantryPhone" class="inputClass"></el-input>
+                </el-form-item>
+
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="addTenatry();dialogFormVisible = false">添加合约</el-button>
+            </div>
+        </el-dialog>
+
+    </template>
+</div>
+<script src="../../js/administrator/tenantry.js"></script>
+</body>
+</html>

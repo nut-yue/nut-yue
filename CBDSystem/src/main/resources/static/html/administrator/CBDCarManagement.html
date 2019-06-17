@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--周陆成-->
+<head>
+    <meta charset="UTF-8">
+    <title>CBD车位管理</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/user/carport_buy.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+
+</head>
+<style>
+    el-dialog {
+        width: 100%;
+    }
+</style>
+<body>
+<div id="findCompany" style="width: 100%; margin: auto">
+    <template>
+        <el-button type="primary" round class="button1" @click="addCBD">添加车位</el-button>
+        <div class="showImg">
+            <el-card v-for="(o, index) in showCarport" :key="index" :body-style="{ padding: '0px' }">
+                <div class="imgDiv">
+                    <img :src="'../../image/administrator/'+o.parkspaceImage" class="image">
+
+                </div>
+                <div style="padding: 14px;">
+                    <span>车位地址：{{o.parkspaceAddress}}</span></br>
+                    <span>区域编号：{{o.parkspaceRegionNumber}}</span>
+                    <div class="bottom clearfix">
+
+                        <el-button type="primary" class="button" @click="showInfo(o)">查看详情</el-button>
+                    </div>
+
+                </div>
+            </el-card>
+        </div>
+
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+
+        <el-dialog title="车位详情" :visible.sync="centerDialogVisible">
+            <el-form :model="form">
+                <el-form-item label="车位地址：" :label-width="formLabelWidth">
+                    {{form.parkspaceAddress}}
+                </el-form-item>
+                <el-form-item label="区域编号：" :label-width="formLabelWidth">
+                    {{form.parkspaceRegionNumber}}
+                </el-form-item>
+                <el-form-item label="车位编号：" :label-width="formLabelWidth">
+                    {{form.parkspaceNumber}}
+                </el-form-item>
+                <el-form-item label="车位状态：" :label-width="formLabelWidth">
+                    {{form.parkspaceStatus}}
+                </el-form-item>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog title="添加车位信息" :visible.sync="dialogTableVisible">
+            <el-form ref="carportForm" :model="carportForm" label-width="100px">
+                <el-form-item label="车位地址：">
+                    <el-input v-model="carportForm.address" style="width: 500px;"></el-input>
+                </el-form-item>
+                <el-form-item label="区域名：">
+                    <el-input v-model="carportForm.areaName" style="width: 500px;"></el-input>
+                </el-form-item>
+                <el-form-item label="车位起始编号：">
+                    <el-input v-model="carportForm.startNumber" style="width: 500px;"></el-input>
+                </el-form-item>
+                <el-form-item label="车位结束编号：">
+                    <el-input v-model="carportForm.endNumber" style="width: 500px;"></el-input>
+                </el-form-item>
+                <el-form-item label="车位照片：" style="width: 500px;">
+                    <el-upload
+                            ref="uploadFile"
+                            class="upload-demo"
+                            :on-success="onSuccessDoc"
+                            :action="url"
+                            :on-preview="handlePreview"
+                            :on-remove="handleRemove"
+                            :file-list="fileList2"
+                            accept=".gif, .png,.jpg"
+                            :auto-upload="false"
+                            :limit="1"
+                            multiple
+                            list-type="picture">
+                        <el-button size="small" type="primary"
+                        >点击上传
+                        </el-button>
+                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogTableVisible = false">返回</el-button>
+                <el-button type="primary" @click="addCarport(); dialogTableVisible = false">添加车位</el-button>
+            </div>
+        </el-dialog>
+    </template>
+</div>
+<script src="../../js/administrator/CBDCarManagement.js"></script>
+</body>
+</html>

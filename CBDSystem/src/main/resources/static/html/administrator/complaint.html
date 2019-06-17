@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投诉管理</title>
+    <!--陈玉婷-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/administrator/complaint.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <div class="findBtn">
+            <el-row>
+                <el-col :span="24">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-date-picker
+                                v-model="value7"
+                                type="daterange"
+                                align="right"
+                                unlink-panels
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                :picker-options="pickerOptions2"
+                                value-format="yyyy-MM-dd"
+                                class="search">
+                        </el-date-picker>
+                        <el-button type="primary" round @click="find" class="search">查询</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    label="投诉方"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.userBean.userRealName}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="被投诉方"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.respondentUserBean.userRealName}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="投诉时间"
+                    align="center">
+                <template slot-scope="scope">
+
+                    <span style="margin-left: 10px">{{ scope.row.complaintDate }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作"
+                             align="center">
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            @click="handleEdit(scope.$index, scope.row)">受理
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+        <el-dialog
+                :visible.sync="centerDialogVisible"
+                width="80%"
+                center>
+
+            <el-form ref="form" :model="form">
+                <el-row>
+                    <el-col :span="8">
+                        <div class="grid-content bg-purple left_info">
+                            <h1>事件记录</h1>
+                            <el-form-item label="车位小区地址:">
+                                <span style="margin-left: 10px">{{form.carportAddress}}</span>
+                            </el-form-item>
+                            <el-form-item label="交易类型:">
+                                <span style="margin-left: 10px">{{form.billType}}</span>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="8">
+                        <div class="grid-content bg-purple-light right_info">
+                            <h1>投诉方</h1>
+                            <el-form-item label="用户名:">
+                                <span style="margin-left: 10px">{{form.adminName}}</span>
+                            </el-form-item>
+                            <el-form-item label="真实姓名:">
+                                <span style="margin-left: 10px">{{form.userRealName}}</span>
+                            </el-form-item>
+                            <el-form-item label="身份证号码:">
+                                <span style="margin-left: 10px">{{form.userIdCard}}</span>
+                            </el-form-item>
+                            <el-form-item label="职业:">
+                                <span style="margin-left: 10px">{{form.userProfession}}</span>
+                            </el-form-item>
+                            <el-form-item label="联系电话:">
+                                <span style="margin-left: 10px">{{form.userPhone}}</span>
+                            </el-form-item>
+                            <el-form-item label="投诉理由:">
+                                <span style="margin-left: 10px">{{form.complaintDescription}}</span>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+
+                    <el-col :span="8">
+                        <div class="grid-content bg-purple-light right_info">
+                            <h1>被投诉方</h1>
+                            <el-form-item label="用户名:">
+                                <span style="margin-left: 10px">{{form.adminName1}}</span>
+                            </el-form-item>
+                            <el-form-item label="真实姓名:">
+                                <span style="margin-left: 10px">{{form.userRealName1}}</span>
+                            </el-form-item>
+                            <el-form-item label="身份证号码:">
+                                <span style="margin-left: 10px">{{form.userIdCard1}}</span>
+                            </el-form-item>
+                            <el-form-item label="职业:">
+                                <span style="margin-left: 10px">{{form.userProfession1}}</span>
+                            </el-form-item>
+                            <el-form-item label="联系电话:">
+                                <span style="margin-left: 10px">{{form.userPhone1}}</span>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                </el-row>
+
+
+                <template>
+                    <el-button
+                            type="primary"
+                            @click="accraditation">审批投诉
+                    </el-button>
+
+                    <el-button
+                            type="danger"
+                            @click="delet">驳回投诉
+                    </el-button>
+
+                    <el-button type="primary" @click="centerDialogVisible = false">返回</el-button>
+                </template>
+
+            </el-form>
+        </el-dialog>
+
+    </template>
+</div>
+<script src="../../js/administrator/complaint.js"></script>
+</body>
+</html>

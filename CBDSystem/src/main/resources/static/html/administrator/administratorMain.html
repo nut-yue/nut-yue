@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台用户</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/administrator/administratorMain.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="https://cdn.bootcss.com/web-socket-js/1.0.0/web_socket.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/administrator/webSocket.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <el-container>
+            <el-header>
+                <el-row>
+                    <el-col :span="4">
+                        <div class="grid-content bg-purple">
+                            <el-link type="primary" icon="el-icon-s-promotion" :underline="false"
+                                     @click="collapseStatus" class="logo">CBD后台管理系统
+                            </el-link>
+                        </div>
+                    </el-col>
+                    <el-col :span="20">
+                        <div class="grid-content bg-purple">
+                            <div class="login">
+                                <span class="el-dropdown-link" :model="user">
+                                    <i class="el-icon-s-custom"></i>{{user.username}}</span>&nbsp;&nbsp;
+                                <el-link type="danger" icon="el-icon-switch-button" @click="logout()"
+                                         class="logout"></el-link>
+                            </div>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-header>
+            <el-container>
+                <el-aside width="auto"
+                          @mouseenter.native="collapseOpen"
+                          @mouseleave.native="collapseClose">
+                    <el-menu
+                            default-active="2"
+                            class="el-menu-vertical-demo"
+                            background-color="#2d3a4b"
+                            text-color="#fff"
+                            active-text-color="#ffd04b"
+                            :collapse="isCollapse">
+                        <el-menu-item index="1" @click="showCompany" :style="isPersonage">
+                            <i class="el-icon-setting"></i>
+                            <span slot="title">企业用户管理</span>
+                        </el-menu-item>
+                        <el-submenu index="2" :style="isPersonage">
+                            <template slot="title">
+                                <i class="el-icon-setting"></i>
+                                <span slot="title">个人用户管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="1-2" @click="approveCarport">审批车位信息</el-menu-item>
+                                <el-menu-item index="1-3" @click="personal">查看个人交易合同</el-menu-item>
+                                <!--<el-menu-item index="1-4" @click="complaint" :style="isComplaints">投诉管理</el-menu-item>-->
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-menu-item index="9" @click="complaint" :style="isComplaints">
+                            <i class="el-icon-phone"></i>
+                            <span slot="title">投诉管理</span>
+                        </el-menu-item>
+                        <el-submenu index="3" :style="isContract">
+                            <template slot="title">
+                                <i class="el-icon-tickets"></i>
+                                <span slot="title">CBD合同管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="1-5" @click="external">外部合同管理</el-menu-item>
+                                <el-menu-item index="1-6" @click="tenantry">租户合同管理</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+
+                        <el-menu-item index="4" @click="carportMessage" :style="isStall">
+                            <i class="el-icon-view"></i>
+                            <span slot="title">CBD车位管理</span>
+                        </el-menu-item>
+                        <el-menu-item index="5" @click="showBill">
+                            <i class="el-icon-message"></i>
+                            <span slot="title">CBD计费系统</span>
+                        </el-menu-item>
+                        <el-menu-item index="6" @click="showLog">
+                            <i class="el-icon-search"></i>
+                            <span slot="title">查看日志</span>
+                        </el-menu-item>
+                        <el-menu-item index="7" @click="adminMessage">
+                            <i class="el-icon-info"></i>
+                            <span slot="title">我的信息</span>
+                        </el-menu-item>
+                        <el-submenu index="8"  :visible.sync="dialogVisible" :style="isPermission">
+                            <template slot="title">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">超管管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="1-7" @click="showAdmin">查看后台管理员</el-menu-item>
+                                <el-menu-item index="1-8" @click="loginNum">在线人数统计</el-menu-item>
+                                <el-menu-item index="1-9" @click="respTime">响应时间统计</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                    </el-menu>
+                </el-aside>
+                <el-main>
+                    <iframe src="" frameborder="0" name="show"></iframe>
+                </el-main>
+            </el-container>
+        </el-container>
+    </template>
+</div>
+<script src="../../js/administrator/administratorMain.js"></script>
+</body>
+</html>

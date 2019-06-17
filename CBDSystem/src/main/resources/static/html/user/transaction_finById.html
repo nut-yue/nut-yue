@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--胡平 对应出租交易记录表-->
+<head>
+    <meta charset="UTF-8">
+    <title>订单详情</title>
+    <link rel="stylesheet" href="../../css/user/transaction_finById.css"/>
+
+</head>
+<body>
+<div id="root">
+    <h1>交易内容</h1>
+    <div id="info">
+        <template>
+            <el-table
+                    :data="tableData"
+                     id="tableMargin">
+
+                <el-table-column
+                        prop="name"
+                        label="买方"
+                >
+                </el-table-column>
+
+                <el-table-column
+                        label="卖方"
+                        width="180">
+                    <template slot-scope="scope">
+                        <el-popover trigger="hover" placement="top">
+                            <p>姓名: {{ scope.row.name }}</p>
+                            <p>住址: {{ scope.row.address }}</p>
+                            <div slot="reference" class="name-wrapper">
+                                <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                            </div>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+
+                <el-table-column
+                        label="日期"
+                        width="180">
+                    <template slot-scope="scope">
+                        <i class="el-icon-time"></i>
+                        <span style="margin-left: 10px">{{ scope.row.date }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        prop="address"
+                        label="车位地址"
+                       >
+                </el-table-column>
+                <el-table-column
+                        prop="money"
+                        label="价格"
+                        >
+                </el-table-column>
+            </el-table>
+
+            <h1>投诉内容</h1>
+            <div id="editor">
+                <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+            </div>
+
+            <div>  <el-button type="primary" id="btn">主要按钮</el-button></div>
+        </template>
+    </div>
+</div>
+<script src="../../js/vue.js"></script>
+<script src="../../js/index.js"></script>
+<script src="../../js/wangEditor.min.js"></script>
+<script src="../../js/user/transaction_finById.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!--<script>-->
+    <!--let main = new Vue({-->
+        <!--el: "#info",-->
+        <!--data: function () {-->
+            <!--return {-->
+                <!--tableData: [{-->
+                    <!--date: '2016-05-02',-->
+                    <!--name: '王小虎',-->
+                    <!--address: '上海市普陀区金沙江路 1518 弄',-->
+                    <!--transactionPrice:'50W'-->
+                <!--}]-->
+            <!--}-->
+        <!--}-->
+    <!--});-->
+<!--</script>-->
+<!--<script type="text/javascript">-->
+    <!--var E = window.wangEditor-->
+    <!--var editor = new E('#editor')-->
+    <!--editor.create()-->
+<!--</script>-->
+</body>
+</html>

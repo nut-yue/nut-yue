@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看个人买卖合同</title>
+    <!--陈云强-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/company/personal_showContract.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div id="operationBackgroundLog">
+    <div class="format" ></div>
+    <div class="format1">
+        <h1>查看个人买卖合同</h1>
+        <template>
+            <el-table
+                    :data="tableData"
+                    style="width: 100%">
+                <el-table-column
+                        label="编号"
+                        width="100">
+                    <template slot-scope="scope">
+                        <span style="margin-left: 10px">{{ scope.row.personalId }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        label="合同编号"
+                        width="100">
+                    <template slot-scope="scope">
+                        <span style="margin-left: 10px">{{ scope.row.personalContractNum }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        label="车位信息"
+                        width="100">
+                    <template slot-scope="scope">
+                        <span style="margin-left: 10px">{{ scope.row.carportAddress }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        label="出售人"
+                        width="100">
+                    <template slot-scope="scope">
+                        <span style="margin-left: 10px">{{ scope.row.sellUserId }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        label="购买人"
+                        width="100">
+                    <template slot-scope="scope">
+                        <span style="margin-left: 10px">{{ scope.row.buyUserId }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        label="成交价格"
+                        width="100">
+                    <template slot-scope="scope">
+                        <span style="margin-left: 10px">{{ scope.row.personalPrice }}</span>
+                    </template>
+                </el-table-column>
+
+            </el-table>
+
+            <div class="block">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage4"
+                        :page-sizes="[100, 200, 300, 400]"
+                        :page-size="100"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="400">
+                </el-pagination>
+            </div>
+        </template>
+        <div style="width: 300px">
+            <el-input size="small" placeholder="请输操作人" suffix-icon="el-icon-date" v-model="input8">
+            </el-input>
+        </div>
+        <div style=" margin: auto">
+            <el-button type="primary" round>查询</el-button>
+            <el-button type="primary" round>查看详情</el-button>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="../../js/company/personal_showContract.js"></script>
+
+</body>
+</html>

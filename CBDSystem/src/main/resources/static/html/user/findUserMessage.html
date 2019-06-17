@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--周陆成-->
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息界面</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!--<link rel="stylesheet" href="../../css/user/findUserMessage.css">-->
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div id="usermessage">
+    <template>
+        <el-row >
+            <el-col :span="24" align="center">
+                <div class="grid-content search">
+                    <el-select v-model="value" clearable placeholder="请选择">
+                        <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                    <el-button type="primary" round @click="find" class="search">查询</el-button>
+                </div>
+            </el-col>
+        </el-row>
+        <el-divider><i class="el-icon-search"></i>&nbsp;&nbsp;搜索我的信息</el-divider>
+        <el-table :data="tableData" style="width: 100%">
+            <el-table-column
+                    label="消息标題"
+                    width="250"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.messageTitle }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                    label="消息时间" align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.messageTime }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="消息类型" align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.messageType }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="是否已读" align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.messageIsRead }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作" align="center">
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            @click="handleEdit(scope.$index, scope.row)">详情
+                    </el-button>
+
+                    <el-dialog title="消息详情" :visible.sync="dialogFormVisible1">
+                        <el-form :model="form">
+                            <el-form-item label="消息标题：" :label-width="formLabelWidth1">
+                                {{ form.messageTitle }}
+                            </el-form-item>
+                            <el-form-item label="消息内容：" :label-width="formLabelWidth1">
+                                {{ form.messageContent}}
+                            </el-form-item>
+                            <el-form-item label="消息时间：" :label-width="formLabelWidth1">
+                                {{ form.messageTime }}
+                            </el-form-item>
+                            <el-form-item label="消息类型：" :label-width="formLabelWidth1">
+                                {{ form.messageType }}
+                            </el-form-item>
+                            <el-form-item label="发送者：" :label-width="formLabelWidth1" >
+                                {{ form.messagePostUserBean.userRealName }}
+                            </el-form-item>
+                        </el-form>
+                        <div slot="footer" class="dialog-footer">
+                            <el-button type="primary" @click="dialogFormVisible1 = false">确 定</el-button>
+                        </div>
+                    </el-dialog>
+                    <el-button
+                            size="mini"
+                            type="danger"
+                            @click="handleDelete(scope.$index, scope.row)">删除
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </template>
+    <br>
+    <div class="block">
+        <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage"
+                :page-sizes="[10, 15, 20, 25]"
+                :page-size="100"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total"
+                align="center">
+
+        </el-pagination>
+    </div>
+</div>
+<script src="../../js/user/findUserMessage.js"></script>
+</body>
+</html>

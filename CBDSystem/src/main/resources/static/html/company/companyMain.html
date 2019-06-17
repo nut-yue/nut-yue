@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>企业用户</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/company/companyMain.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/user/webSocket.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <el-container>
+            <el-header>
+                <el-row>
+                    <el-col :span="4">
+                        <div class="grid-content bg-purple">
+                            <el-link type="primary" icon="el-icon-s-promotion" :underline="false"
+                                     @click="collapseStatus" class="logo">CBD后台管理系统
+                            </el-link>
+                        </div>
+                    </el-col>
+                    <el-col :span="20">
+                        <div class="grid-content bg-purple">
+                            <div class="login">
+                                <span class="el-dropdown-link" :model="user">
+                                    <i class="el-icon-s-custom"></i>{{user.username}}</span>&nbsp;&nbsp;
+                                <el-link type="danger" icon="el-icon-switch-button" @click="logout()" class="logout"></el-link>
+                            </div>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-header>
+            <el-container>
+                <el-aside width="auto"
+                          @mouseenter.native="collapseOpen"
+                          @mouseleave.native="collapseClose">
+                    <el-menu
+                            default-active="2"
+                            class="el-menu-vertical-demo"
+                            background-color="#2d3a4b"
+                            text-color="#fff"
+                            active-text-color="#ffd04b"
+                            :collapse="isCollapse">
+                        <el-submenu index="1">
+                            <template slot="title">
+                                <i class="el-icon-goods"></i>
+                                <span>车位管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="1-1" @click="rentCarport">已租车位</el-menu-item>
+                                <el-menu-item index="1-2" @click="parkSpaceShow">CBD待租车位</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-menu-item index="2" @click="shopMessage">
+                            <i class="el-icon-tickets"></i>
+                            <span slot="title">企业账单</span>
+                        </el-menu-item>
+                        <el-menu-item index="3" @click="companyMessage">
+                            <i class="el-icon-view"></i>
+                            <span slot="title">企业信息</span>
+                        </el-menu-item>
+                    </el-menu>
+                </el-aside>
+                <el-main>
+                    <iframe src="" frameborder="0" name="show"></iframe>
+                </el-main>
+            </el-container>
+        </el-container>
+    </template>
+</div>
+<script src="../../js/company/companyMain.js"></script>
+</body>
+</html>

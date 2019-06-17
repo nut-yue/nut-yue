@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>申请新车位</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/user/carport_add.css">
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+</head>
+<body>
+<!--作者：张皓。-->
+<div id="main">
+    <template>
+        <div id="show">
+            <h1>申请新车位</h1>
+            <el-divider></el-divider>
+            <el-form ref="form" :model="form" label-width="150px" >
+                <el-form-item prop="carportAddress" label="车位地址：">
+                    <el-input v-model="form.carportAddress" style="width: 500px;"></el-input>
+                </el-form-item>
+                <el-form-item prop="carportNumber" label="车位编号：">
+                    <el-input v-model="form.carportNumber" style="width: 500px;"></el-input>
+                </el-form-item>
+                <el-form-item  prop="carportProperty" label="车位产权证编号：">
+                    <el-input v-model="form.carportProperty" style="width: 500px;"></el-input>
+                </el-form-item>
+                <el-form-item prop="img1" label="车位产权证复印件：" style="width: 500px;">
+                    <el-upload
+                            ref="uploadFile"
+                            class="upload-demo"
+                            :on-success="onSuccessDoc"
+                            :action="url"
+                            :on-preview="handlePreview"
+                            :on-remove="handleRemove"
+                            :file-list="fileList2"
+                            accept=".gif, .png,.jpg"
+                            :auto-upload="false"
+                            :limit="1"
+                            multiple
+                            list-type="picture">
+                        <el-button size="small" type="primary"
+                        >点击上传
+                        </el-button>
+                        <div slot="tip" class="el-upload__tip"></div>
+                    </el-upload>
+                </el-form-item>
+                <el-form-item prop="img2" label="车位照片：" style="width: 500px;">
+                    <el-upload
+                            ref="upload"
+                            class="upload-demo"
+                            :on-success="onSuccess"
+                            :action="url"
+                            :on-preview="handlePreview"
+                            :on-remove="handleRemove"
+                            :file-list="fileList2"
+                            accept=".gif, .png,.jpg"
+                            :auto-upload="false"
+                            multiple
+                            list-type="picture">
+                        <el-button size="small" type="primary"
+                        >点击上传
+                        </el-button>
+                        <div slot="tip" class="el-upload__tip"></div>
+                    </el-upload>
+                </el-form-item>
+            </el-form>
+            <div class="addBtn">
+                <el-button type="primary" round @click="onSubmit">确定添加</el-button>
+                <el-button type="info" round>返回</el-button>
+            </div>
+        </div>
+    </template>
+</div>
+
+
+<script src="../../js/user/carport_add.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+#editor {
+    width: 760px;
+    margin-left:140px;
+    margin-bottom: 20px;
+}
+#tableMargin {
+    margin-left:140px;
+}
+#root {
+    width: 100%;
+    margin: 0 auto;
+}
+
+#info {
+    width: 760px;
+}
+.deal p {
+    font-size: 15px;
+}
+#btn {
+    margin-left: 450px;
+}

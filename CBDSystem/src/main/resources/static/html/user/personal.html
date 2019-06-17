@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看合同详细信息</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/user/personal.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <div class="findBtn">
+            <el-row>
+                <el-col :span="24">
+                    <div class="grid-content bg-purple billInfo">
+                        <template>
+                            <el-select v-model="value4" clearable placeholder="请选择">
+                                <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </template>
+                        <el-button type="primary" round @click="find" class="search">查询</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+        <el-divider><i class="el-icon-search"></i>&nbsp;&nbsp;搜索我的合同</el-divider>
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    label="合同编号"
+                    align="center">
+                <template slot-scope="scope">
+
+                    <span style="margin-left: 10px">{{ scope.row.personalContractNum }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="价格"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.personalPrice }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="创建时间"
+                    align="center">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.personalDate }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作"
+                             align="center">
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            @click="handleEdit(scope.$index, scope.row)">查看合同详情
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+
+
+        <el-dialog title="合同详情" :visible.sync="centerDialogVisible">
+            <el-form :model="form">
+                <el-form-item label="合同编号：" :label-width="formLabelWidth">
+                    {{form.personalContractNum}}
+                </el-form-item>
+                <el-form-item label="成交价格：" :label-width="formLabelWidth">
+                    {{form.personalPrice}}
+                </el-form-item>
+                <el-form-item label="生效日期：" :label-width="formLabelWidth">
+                    {{form.personalDate}}
+                </el-form-item>
+                <el-form-item label="出售方姓名：" :label-width="formLabelWidth">
+                    {{form.sellUserName}}  ({{form.personalSellIsSigning}})
+                </el-form-item>
+                <el-form-item label="购买方姓名：" :label-width="formLabelWidth">
+                    {{form.buyUserName}}({{form.personalBuyIsSigning}})
+                </el-form-item>
+                <el-form-item label="车位地址：" :label-width="formLabelWidth">
+                    {{form.carportAddress}}
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <div v-if="isShow">
+                    <el-button type="primary" @click="addTrue();centerDialogVisible = false">同意签约</el-button>
+                    <el-button type="primary" @click="addFalse();centerDialogVisible = false">拒绝签约</el-button>
+                    <el-button type="primary" @click="centerDialogVisible = false">返 回</el-button>
+                </div>
+                <div v-else>
+                    <el-button type="primary" @click="centerDialogVisible = false">返 回</el-button>
+                </div>
+
+            </div>
+        </el-dialog>
+    </template>
+</div>
+<script src="../../js/user/personal.js"></script>
+</body>
+</html>

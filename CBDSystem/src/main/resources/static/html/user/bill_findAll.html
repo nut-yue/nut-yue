@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--胡平 对应计费账单表-->
+<head>
+    <meta charset="UTF-8">
+    <title>个人消费详情</title>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/user/bill_findAll.css">
+</head>
+<body>
+<div id="root">
+    <template>
+        <div class="findBtn">
+            <el-row>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-tag type="warning">
+                            <i class="el-icon-zoom-in"></i>
+                            <span style="margin-left: 10px">账单总收入：{{getMoney}}</span>
+                        </el-tag>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-tag type="success">
+                            <i class="el-icon-zoom-out"></i>
+                            <span style="margin-left: 10px">账单总支出：{{payMoney}}</span>
+                        </el-tag>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-tag>
+                            <i class="el-icon-edit"></i>
+                            <span style="margin-left: 10px">交易总笔数：{{dealSum}}</span>
+                        </el-tag>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-tag type="danger">
+                            <i class="el-icon-success"></i>
+                            <span style="margin-left: 10px">合计总金额：{{getMoneySum}}</span>
+                        </el-tag>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row>
+
+                <el-col :span="24">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-date-picker
+                                type="daterange"
+                                align="right"
+                                unlink-panels
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                :picker-options="pickerOptions2"
+                                value-format="yyyy-MM-dd"
+                                class="search"
+                                v-model="date">
+                        </el-date-picker>
+                        <el-select v-model="billType" clearable placeholder="请选择" class="search">
+                            <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                        <el-button type="primary" round @click="find" class="search">查询</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+        <el-divider><i class="el-icon-search"></i>&nbsp;&nbsp;搜索账单</el-divider>
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    label="交易日期"
+                    align="center">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.billDate }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="交易时间"
+                    align="center">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.billTime }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                    label="收支情况"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.billMoney }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="账单类型"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.billType }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作"
+                             align="center">
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            @click="handleEdit(scope.$index, scope.row)">查看账单详情
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+        <el-dialog title="订单详情" :visible.sync="centerDialogVisible">
+            <el-form :model="biilInfo">
+                <el-form-item label="卖方：" :label-width="formLabelWidth">
+                    {{biilInfo.userName}}
+                </el-form-item>
+                <el-form-item label="购买时间：" :label-width="formLabelWidth">
+                    {{biilInfo.billDate}}
+                </el-form-item>
+                <el-form-item label="类型：" :label-width="formLabelWidth">
+                    {{biilInfo.billType}}
+                </el-form-item>
+                <el-form-item label="价格：" :label-width="formLabelWidth">
+                    {{biilInfo.billMoney}}
+                </el-form-item>
+                <el-form-item label="投诉内容" :label-width="formLabelWidth">
+                    <el-input v-model="complaint" type="textarea" ></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <div v-if=complaintFlag>
+                    <el-button type="primary" @click="addComplain();centerDialogVisible = false" >投诉</el-button>
+                </div>
+            </div>
+        </el-dialog>
+    </template>
+</div>
+</body>
+<script src="../../js/user/bill_findAll.js"></script>
+</html>

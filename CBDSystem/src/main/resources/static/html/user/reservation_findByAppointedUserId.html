@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>他人预约我的车位信息</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/user/reservation_findByAppointedUserId.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<!--作者：张皓。 转载请注明出处-->
+<div class="main">
+    <template>
+        <div class="findBtn">
+            <el-row>
+                <el-col :span="24">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-input v-model="reservationContent" placeholder="预约留言内容" class="addressInput"></el-input>
+                        <el-button type="primary" round @click="find" class="search">查询</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+        <el-divider><i class="el-icon-search"></i>&nbsp;&nbsp;搜索我的待处理预约</el-divider>
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    label="处理内容"
+                    align="center">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.reservationContent }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="预约者"
+                    align="center"
+                    width="200">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.appointerUserBean.userRealName }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="预约类型"
+                    align="center"
+                    width="150">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.reservationType }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="状态"
+                    align="center"
+                    width="150">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.reservationDeal }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作"
+                             align="center"
+                             width="400">
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            @click="handleEdit(scope.$index, scope.row)">查看预约详情
+                    </el-button>
+                    <el-button
+                            size="mini"
+                            @click="sureReservation(scope.$index, scope.row)">同意预约
+                    </el-button>
+                    <el-button
+                            size="mini"
+                            @click="refuseReservation(scope.$index, scope.row)">拒绝预约
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[5,10, 20, 30]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+        <el-dialog title="预约详情" :visible.sync="centerDialogVisible">
+            <el-form :model="form">
+                <el-form-item label="预约者：" >
+                    {{form.appointerUserName}}
+                </el-form-item>
+                <el-form-item label="信誉度：" >
+                    <el-rate
+                            v-model="form.value5"
+                            disabled
+                            show-score
+                            text-color="#ff9900"
+                            score-template="{value}">
+                    </el-rate>
+                </el-form-item>
+                <el-form-item label="预约类型：" >
+                    {{form.reservationType}}
+                </el-form-item>
+                <el-form-item label="是否处理：" >
+                    {{form.reservationDeal}}
+                </el-form-item>
+                <el-form-item label="处理内容：" >
+                    {{form.reservationContent}}
+                </el-form-item>
+                <el-form-item label="车位地址：">
+                    {{form.carportAddress}}
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+    </template>
+</div>
+
+<script src="../../js/user/reservation_findByAppointedUserId.js"></script>
+</body>
+</html>

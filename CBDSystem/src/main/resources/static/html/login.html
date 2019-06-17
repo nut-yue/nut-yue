@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <script src="../js/vue.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <div class="right">
+            <div class="rightForm">
+                <el-form ref="loginForm" :model="loginForm" :rules="rules">
+                    <h1>CBD车位管理系统登录</h1>
+                    <el-form-item>
+                        <el-input
+                                placeholder="请输入用户名"
+                                prefix-icon="el-icon-user-solid"
+                                v-model="loginForm.username"
+                                class="formInput">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-input
+                                placeholder="请输入密码"
+                                prefix-icon="el-icon-lock"
+                                v-model="loginForm.password"
+                                class="formInput"
+                                show-password>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item class="rightBtn">
+                        <el-button type="primary" plain icon="el-icon-s-promotion" @click="login">登录</el-button>
+                        <el-button type="primary" plain icon="el-icon-s-help" @click="register">注册</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <el-dialog title="注册" :visible.sync="centerDialogVisible" width="30%">
+            <!--<div class="registerMain">-->
+                <el-form ref="form" :model="form" :rules="rules">
+                    <el-form-item prop="name" label="用户名：">
+                        <el-input v-model="form.adminBean.adminName"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="name" label="真实姓名：">
+                        <el-input v-model="form.userRealName"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="password" label="密码：" prop="pass">
+                        <el-input v-model="form.adminBean.adminPassword" type="password" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="surePwd" label="确认密码：" prop="pass">
+                        <el-input v-model="form.surePwd" type="password" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="name" label="家庭住址：">
+                        <el-input v-model="form.userAddress"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="name" label="身份证号码：">
+                        <el-input v-model="form.userIdCard"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="profession" label="职业：">
+                        <el-input v-model="form.userProfession"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="email" label="邮箱：">
+                        <el-input v-model="form.userEmailAddress"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="userPhone" label="电话号码：">
+                        <el-input v-model="form.userPhone"></el-input>
+                        <el-button type="primary" @click="sms">发送短信</el-button>
+                    </el-form-item>
+                    <el-form-item prop="code" label="验证码：">
+                        <el-input v-model="code"></el-input>
+                    </el-form-item>
+                    <el-form-item class="btn">
+                        <el-button type="primary" @click="submit">提交</el-button>
+                        <el-button @click="back">返回</el-button>
+                    </el-form-item>
+                </el-form>
+            <!--</div>-->
+        </el-dialog>
+    </template>
+</div>
+
+<script src="../js/login.js"></script>
+</body>
+</html>

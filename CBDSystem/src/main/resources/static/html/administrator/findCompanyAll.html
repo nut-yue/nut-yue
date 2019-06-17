@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--周陆成-->
+<head>
+    <meta charset="UTF-8">
+    <title>企业管理</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/administrator/findCompanyAll.css">
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+</head>
+<body>
+<div id="finCompany" style="width: 100%; margin: auto">
+    <template>
+        <div style="text-align: center;margin-right: 140px">
+
+            </div>
+        <div class="findBtn">
+            <el-row>
+                <el-col :span="24">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-input v-model="comName" placeholder="企业名称" class="addressInput"></el-input>
+                        <el-input v-model="comPosition" placeholder="楼层位置" class="addressInput"></el-input>
+                        <el-input v-model="comContact" placeholder="企业联系人" class="addressInput"></el-input>
+                        <el-input v-model="comPhone" placeholder="联系电话" class="addressInput"></el-input>
+                        <el-button type="primary" round @click="find" class="search">查询</el-button>
+                        <el-button type="primary" round @click="dialogFormVisible = true">新增企业</el-button>
+
+                        <el-dialog title="新增企业" :visible.sync="dialogFormVisible">
+                            <el-form :model="form"
+                                     ref="form"
+                                     resetField
+                                     class="demo-ruleForm">
+                                <el-form-item label="企业用户名" prop="adminname">
+                                    <el-input v-model="form.adminBean.adminname" placeholder="请输入6-12位字符"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="企业登录密码" prop="adminPwd">
+                                    <el-input v-model="form.adminBean.adminPwd" type="password"placeholder="请输入6-12位字符"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="企业名字" prop="compname">
+                                    <el-input v-model="form.compname" placeholder="请输入6-12位字符"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="企业地址" prop="Position">
+                                    <el-input v-model="form.Position" placeholder="请输入6-12位字符"></el-input>
+                                </el-form-item>
+
+                                <el-form-item label="企业联系人" prop="Contact">
+                                    <el-input v-model="form.Contact" placeholder="请输入2-12位字符"></el-input>
+                                </el-form-item>
+
+
+                                <el-form-item label="企业联系人电话" prop="Phone">
+                                    <el-input v-model.number="form.Phone"placeholder="11位手机号码"></el-input>
+                                </el-form-item>
+
+                                <el-form-item>
+                                    <el-button type="primary" @click="submitForm('form')">添加企业</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </el-dialog>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+        <br>
+        <template>
+            <el-table :data="tableData" style="width: 100%">
+                <el-table-column
+                        label="企业名称"
+                        width="250" align="center">
+                    <template slot-scope="scope">
+                        <span style="margin-left: 10px">{{ scope.row.companyName }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="企业联系人" align="center">
+                    <template slot-scope="scope">
+                        <span style="margin-left: 10px">{{ scope.row.companyContact }}</span>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="企业联系电话" align="center">
+                    <template slot-scope="scope">
+                        <span style="margin-left: 10px">{{ scope.row.companyPhone }}</span>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-button
+                                size="mini"
+                                @click="handleEdit(scope.$index, scope.row)">详情
+                        </el-button>
+
+                        <el-dialog title="企业详情信息" :visible.sync="dialogFormVisible1">
+                            <el-form :model="form">
+                                <el-form-item label="企业用户名：" :label-width="formLabelWidth1">
+                                    {{form.adminBean.adminName}}
+                                </el-form-item>
+                                <el-form-item label="企业名称：" :label-width="formLabelWidth1">
+                                    {{form.companyName}}
+                                </el-form-item>
+                                <el-form-item label="企业楼层：" :label-width="formLabelWidth1">
+                                    {{ form.companyPosition }}
+                                </el-form-item>
+                                <el-form-item label="企业联系人：" :label-width="formLabelWidth1">
+                                    {{ form.companyContact }}
+                                </el-form-item>
+                                <el-form-item label="企业联系电话：" :label-width="formLabelWidth1">
+                                    {{ form.companyPhone }}
+                                </el-form-item>
+                            </el-form>
+
+                            <div slot="footer" class="dialog-footer">
+                                <el-button type="primary" @click="dialogFormVisible1 = false">确 定</el-button>
+                            </div>
+                        </el-dialog>
+
+
+                        <el-button
+                                size="mini"
+                                type="danger"
+                                @click="handleDelete(scope.$index, scope.row)">删除
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+        <br>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 15, 20, 25]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+    </template>
+</div>
+
+
+<script src="../../js/administrator/findCompanyAll.js"></script>
+</body>
+</html>

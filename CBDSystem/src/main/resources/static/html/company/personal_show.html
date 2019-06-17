@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>车位买卖合同</title>
+    <!--陈云强-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/company/personal_show.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div style="text-align: center">
+<div id="salesContract">
+    <div class="format"></div>
+    <div class="format1">  <!--合同长度700 居中-->
+        <h1>车位买卖合同</h1>
+        <el-collapse v-model="activeNames" @change="handleChange">
+            <!--合同内容-->
+            <el-collapse-item title="车位买卖合同" name="1">
+                <div>转让方(以下简称“甲方”) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp;&nbsp;受让方(以下简称“乙方”)</div>
+                <!--传入甲乙真实姓名-->
+                <span>甲方:<span id="trueName"style="margin-left: 0px"><span style="margin-right: 150px">{{userRealName}}</span></span>
+                      乙方:<span id="trueName1"><span>{{userRealName1}}</span></span></span><br/>
+
+                <span>
+            根据《中华人民共和国合同法》及其他相关法律、法规规定，甲、乙双方在真实、自愿、
+            协商一致的基础上，就甲方向乙方转让地下停车位的相关事项，达成如下协议:
+        </span>
+                <div>一、标的</div>
+                <div>位享有合法的所有权，甲方确保上述车位产权清晰，没有经济和民事纠纷。</div>
+                <div>二、使用期限</div>
+                <span>
+            甲方同意将上述车位所有权转让给乙方，乙方享有与该车位土地证同等年限的所有权; 转让期限自
+            本协议生效之日起至该小区地下停车位土地使用权期限届满时止，若国家法律政策对地下车位使用权
+            年限作出具体规定，乙方所享有的地下车库使用年限按国家法律政策的规定处理。
+        </span>
+                <div>三、付款方式及责任</div>
+                <span>
+            1、本协议所指本宗车位转让金总价款为人民币<span id="money">15000.00</span>元 ，
+            乙方付款方式为全款，车位房产证过户手续完成当天一次性付清，乙方于本协议签订时向甲方付清全部车位转让金。
+            (此价格中不包含汽车车位的物业管理服务费，转让后的物管费由乙方承担，即:乙方需另外支付甲方已交付的车位物管费
+            ，该笔费用以该小区物管确认金额为准)
+        </span><br/>
+                <span>
+            2、甲方收到乙方车位转让金后，原小区开发商向甲方转让该车位而来的相关权益(占有、使用、收益、处分的权利)
+            已经全部转移到乙方，甲方无权另行处臵该车库。
+        </span><br/>
+                <span>
+            3、转让后，甲乙双方须到小区所在的物业公司备案，就车位物业管理费缴存办理移交手续,交易期间不得再次转让。。
+        </span>
+                <span>
+            4、该协议签署后甲方需配合乙方办理过户手续，直至所有手续移交完成为止，过户过程中产生的所有费用由乙方承担。
+            甲乙双方在房产局办理车位房产证过户手续当天，甲方移交停车卡。
+        </span>
+                <div>五、使用管理</div>
+                <div>1、自甲方向乙方移交该车位之后所发生的一切费用及法律责任均由乙方自行承担。</div>
+                <div>2、乙方使用该停车位，须服从和遵守小区所在物业公司的统一管理，并交纳相应的车位物业管理服务费用。</div>
+                <div>六、生效条件</div>
+                <span>
+            本合同一式肆份，甲、乙双方各执贰份，均具有同等效力，合同自签署之日起生效。甲、乙双方对本协议未尽事项应协商解决
+            ，发生争议由甲方所在地基层人民法院管辖。本协议自甲、乙双方签字后生效，合同附件与本协议具有同等法律效力。
+        </span>
+                <div>附: 一、双方的有效身份证复印件;</div>
+                <div>二、车位明细图的有效复印件;</div>
+                <div>三、购车位的有效发票复印件;</div>
+                <!--传入买卖双方真实姓名-->
+                <span>甲方签字:<span id="userRealName"style="margin-left: 0px"><span style="margin-right: 150px">{{userRealName}}</span>
+                      乙方签字:<span id="userRealName1"><span>{{userRealName1}}</span></span></span></span><br/>
+                <!--传入个人身份证-->
+                <span>身份证号码:<span id="userIdCard" style="margin-left: 0px"><span style="margin-right: 150px">{{userIdCard}}</span>
+                      身份证号码:<span id="userIdCard1"><span>{{userIdCard1}}</span></span></span></span><br/>
+                <!--传入日期-->
+                <span>签约日期:<span id="date"style="margin-left: 0px"><span style="margin-right: 150px">{{date}}</span>
+                      签约日期:<span id="date1"><span>{{date1}}</span></span></span></span>
+            </el-collapse-item>
+
+
+        </el-collapse>
+    </div>
+    <div>
+        <el-button type="info" round>返回</el-button>
+    </div>
+</div>
+</div>
+
+<script src="../../js/company/personal_show.js"></script>
+
+</body>
+</html>

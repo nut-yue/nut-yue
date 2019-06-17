@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人投诉查看</title>
+    <!--杨强-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/user/user_update.css">
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+
+</head>
+<body>
+
+<div class="main">
+    <template>
+    <el-form :label-position="labelPosition" label-width="120px"  ref="form" :model="form" >
+        <h1>修改个人信息</h1>
+        <el-form-item label="用户名：">
+            {{form.adminName}}
+        </el-form-item>
+        <el-form-item  label="真实姓名：">
+            {{form.userRealName}}
+        </el-form-item>
+        <el-form-item  label="身份证号码：">
+            {{form.userIdCard}}
+        </el-form-item>
+        <el-form-item  label="家庭住址：" >
+            {{form.userAddress}}
+        </el-form-item>
+        <el-form-item  label="职业：">
+            {{form.userProfession}}
+        </el-form-item>
+        <el-form-item  label="邮箱：">
+            {{form.userEmailAddress}}
+        </el-form-item>
+        <el-form-item class="btn">
+            <el-button type="primary" @click="info">修改信息</el-button>
+            <el-button type="primary" @click="password">修改密码</el-button>
+        </el-form-item>
+    </el-form>
+    <el-dialog title="修改信息" :visible.sync="updateDialogVisible">
+        <div v-if="updateInfo">
+            <el-form ref="form" :model="form">
+                <el-form-item prop="adminName" label="用户名：">
+                    {{form.adminName}}
+                </el-form-item>
+                <el-form-item prop="userRealName" label="真实姓名：">
+                    {{form.userRealName}}
+                </el-form-item>
+                <el-form-item prop="userIdCard" label="身份证号码：">
+                    {{form.userIdCard}}
+                </el-form-item>
+                <el-form-item prop="userAddress" label="家庭住址：" >
+                    <el-input v-model="form.userAddress" clearable > </el-input>
+                </el-form-item>
+                <el-form-item prop="userProfession" label="职业：">
+                    <el-input v-model="form.userProfession" clearable> </el-input>
+                </el-form-item>
+                <el-form-item  prop="userEmailAddress" label="邮箱：">
+                    <el-input v-model="form.userEmailAddress" clearable> </el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="updateInfos">修改</el-button>
+                <el-button type="primary" @click="back">返回</el-button>
+            </div>
+        </div>
+        <div v-else>
+            <el-form ref="form" :model="form">
+                <el-form-item label="请输入新密码"  prop="newPwd" >
+                    <el-input v-model="form.newPwd" type="password">{{form.newPwd}}</el-input>
+                </el-form-item>
+                <el-form-item label="请确认密码"  prop="rePwd" >
+                    <el-input v-model="form.rePwd" type="password">{{form.rePwd}}</el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="updatePassword">修改</el-button>
+                <el-button type="primary" @click="back">返回</el-button>
+            </div>
+        </div>
+    </el-dialog>
+    </template>
+</div>
+<script src="../../js/user/user_update.js"></script>
+</body>
+</html>

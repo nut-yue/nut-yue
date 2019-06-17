@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--胡平-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>在线人数</title>
+    <!-- 引入 echarts.js -->
+    <script src="../../js/echarts.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="../../css/administrator/peopleNum.css">
+
+</head>
+
+<body>
+    <div id="root">
+        <template>
+            <el-row>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-tag type="warning">
+                            <i class="el-icon-zoom-in"></i>
+                            <span style="margin-left: 10px">一天内在线总人数：{{days}}</span>
+                        </el-tag>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-tag type="success">
+                            <i class="el-icon-zoom-out"></i>
+                            <span style="margin-left: 10px">一周内在线总人数：{{weeks}}</span>
+                        </el-tag>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-tag>
+                            <i class="el-icon-edit"></i>
+                            <span style="margin-left: 10px">一个月在线总人数：{{months}}</span>
+                        </el-tag>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple billInfo">
+                        <el-tag type="danger">
+                            <i class="el-icon-success"></i>
+                            <span style="margin-left: 10px" id="num"></span>
+                        </el-tag>
+                    </div>
+                </el-col>
+            </el-row>
+        </template>
+    </div>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 100%;height:400px;"></div>
+
+    <script>
+        var websocket = null;
+        //发送消息
+        var message = $("#text").val();
+        //判断当前浏览器是否支持WebSocket
+        if ('WebSocket' in window) {
+            websocket = new WebSocket("ws://127.0.0.1:8080/webSocket/cbd/num/" + 0);
+        }
+        else {
+            alert("对不起！你的浏览器不支持webSocket")
+        }
+        //连接发生错误的回调方法
+        websocket.onerror = function () {
+            setMessageInnerHTML("error");
+        };
+        //连接成功建立的回调方法
+        websocket.onopen = function (event) {
+        };
+        websocket.onmessage = function (event) {
+            console.log(event.data)
+            setMessageInnerHTML(event.data);
+        };
+        //连接关闭的回调方法
+        websocket.onclose = function () {
+        };
+        //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，
+        // 防止连接还没断开就关闭窗口，server端会抛异常。
+        window.onbeforeunload = function () {
+        };
+
+        //将消息显示在网页上
+        function setMessageInnerHTML(innerHTML) {
+            $("#num").text("当前在线人数："+innerHTML);
+        };
+        //关闭连接
+        function closeWebSocket() {
+            websocket.close();
+        }
+    </script>
+    <script src="../../js/administrator/peopleNum.js"></script>
+</body>
+
+</html>

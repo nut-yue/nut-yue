@@ -1,0 +1,25 @@
+
+body {
+    /*background-image: url("../image/background.png");*/
+    background-size: cover;
+}
+#main {
+    width: 1000px;
+    /*height: 600px;*/
+    display: flex;
+    justify-content: space-around;
+    margin: 0px auto;
+
+}
+#show {
+    width: 80%;
+    height: 100%;
+    /*margin-top: 50px;*/
+}
+#show h1 {
+    text-align: center;
+}
+.addBtn{
+    text-align: center;
+    margin-top: 50px;
+}

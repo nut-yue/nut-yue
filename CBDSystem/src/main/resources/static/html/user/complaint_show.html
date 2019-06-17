@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人用户投诉记录查看</title>
+    <!--杨强-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/user/complaint_show.css">
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+
+</head>
+<body>
+<div class="main">
+    <template>
+        <div class="block find demo-input-suffix">
+            <el-date-picker
+                    v-model="value7"
+                    type="daterange"
+                    align="right"
+                    unlink-panels
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    value-format="yyyy-MM-dd"
+                    :picker-options="pickerOptions2">
+            </el-date-picker>
+            <el-button type="primary" round @click="find" class="search">查询</el-button>
+        </div>
+        <el-divider><i class="el-icon-search"></i>&nbsp;&nbsp;搜索我的投诉记录</el-divider>
+    </template>
+    <template>
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <h1>个人用户投诉记录查看</h1>
+            <el-table-column
+                    label="日期">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.complaintDate }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                    label="投诉状态">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.complaintStatus }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="投诉内容">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.complaintDescription }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="投诉类型">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.complaintTypes }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作"
+                             align="center">
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            @click="handleEdit(scope.$index, scope.row)">查看详情
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="block">
+            <br/>
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 15 , 20, 25]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+
+        <el-dialog title="投诉详情" :visible.sync="centerDialogVisible">
+            <el-form :model="form">
+                <el-form-item label="投诉时间：" :label-width="formLabelWidth">
+                    {{form.complaintDate}}
+                </el-form-item>
+                <el-form-item label="交易金额：" :label-width="formLabelWidth">
+                    {{form.billMoney}}
+                </el-form-item>
+                <el-form-item label="被投诉人：" :label-width="formLabelWidth">
+                    {{form.userProfession}}
+                </el-form-item>
+                <el-form-item label="投诉结果：" :label-width="formLabelWidth">
+                    {{form.complaintStatus}}
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+    </template>
+</div>
+<script src="../../js/user/complaint_show.js"></script>
+</body>
+</html>

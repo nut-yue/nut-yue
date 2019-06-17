@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>审批添加车位</title>
+    <!--峗权-->
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/administrator/approveCarport_add.css">
+    <!-- 先引入 Vue -->
+    <script src="../../js/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    label="车位编号"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.carportNumber }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="申请车位地址"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.carportAddress }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="车位状态"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.carportStatus }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作"
+                             align="center">
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            @click="handleEdit(scope.$index, scope.row)">查看详情
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+
+        <el-dialog
+                :visible.sync="centerDialogVisible"
+                width="80%"
+                center>
+            <el-form ref="form" :model="form">
+                <el-row>
+                    <el-col :span="12"><div class="grid-content bg-purple left_info">
+                        <h1>用户信息</h1>
+                        <el-form-item label="真实姓名:">
+                            <span style="margin-left: 10px">{{form.userBean.userRealName}}</span>
+                        </el-form-item>
+                        <el-form-item label="身份证号码:">
+                            <span style="margin-left: 10px">{{form.userBean.userIdCard}}</span>
+                        </el-form-item>
+                        <el-form-item label="电话号码:">
+                            <span style="margin-left: 10px">{{form.userBean.userPhone}}</span>
+                        </el-form-item>
+                        <el-form-item label="家庭地址:">
+                            <span style="margin-left: 10px">{{form.userBean.userAddress}}</span>
+                        </el-form-item>
+                        <div slot="footer" class="dialog-footer">
+                            <template>
+                                <el-button class="el_button_1" type="primary" @click="agree">同意发布</el-button>
+                                <el-button class="el_button_2" type="danger" @click="refuse">拒绝</el-button>
+                            </template>
+                        </div>
+                    </div></el-col>
+                    <el-col :span="12"><div class="grid-content bg-purple-light right_info">
+                        <h1>车位信息</h1>
+                        <el-form-item label="所在地址:">
+                            <span style="margin-left: 10px">{{form.carportAddress}}</span>
+                        </el-form-item>
+                        <el-form-item label="车位编号:">
+                            <span style="margin-left: 10px">{{form.carportNumber}}</span>
+                        </el-form-item>
+                        <el-form-item label="产权证编号:">
+                            <span style="margin-left: 10px">{{form.carportProperty}}</span>
+                        </el-form-item>
+                        <el-form-item label="车位产权证件复印件:">
+                            <span style="margin-left: 10px"><img :src="'../../image/'+form.carportPropertyDoc"></span>
+                        </el-form-item>
+                    </div></el-col>
+                </el-row>
+            </el-form>
+        </el-dialog>
+
+    </template>
+</div>
+</body>
+
+<!-- 引入自己的js -->
+<script src="../../js/administrator/approveCarport_add.js"></script>
+</html>

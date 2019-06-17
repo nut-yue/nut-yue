@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人用户</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/user/userMain.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/user/webSocket.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <el-container>
+            <el-header>
+                <el-row>
+                    <el-col :span="4"><div class="grid-content bg-purple">
+                        <el-link type="primary" icon="el-icon-s-promotion" :underline="false" @click="collapseStatus" class="logo">CBD后台管理系统</el-link>
+                    </div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple">
+                        <div class="login">
+                            <el-dropdown>
+                                 <span class="el-dropdown-link" :model="user">
+                                     <i class="el-icon-s-custom"></i>{{user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
+                                 </span>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item>
+                                        <el-link type="primary" icon="el-icon-search" @click="myInfo">查看个人信息</el-link>
+                                    </el-dropdown-item>
+                                    <el-dropdown-item>
+                                        <el-link type="warning" @click="logout()" icon="el-icon-switch-button">注销</el-link>
+                                    </el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                        </div>
+                    </div></el-col>
+                </el-row>
+            </el-header>
+            <el-container>
+                <el-aside width="auto"
+                          @mouseenter.native="collapseOpen"
+                          @mouseleave.native="collapseClose">
+                    <el-menu
+                            default-active="2"
+                            class="el-menu-vertical-demo"
+                            background-color="#2d3a4b"
+                            text-color="#fff"
+                            active-text-color="#ffd04b"
+                            :collapse="isCollapse">
+                        <el-submenu index="1">
+                            <template slot="title">
+                                <i class="el-icon-goods"></i>
+                                <span>车位商城</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="1-1" @click="carportBuy">购买车位</el-menu-item>
+                                <el-menu-item index="1-2" @click="carportSell">租赁车位</el-menu-item>
+                            </el-menu-item-group>
+                            <el-submenu index="1-3">
+                                <template slot="title">预约管理</template>
+                                <el-menu-item index="1-3-1" @click="appointer">我的预约</el-menu-item>
+                                <el-menu-item index="1-3-3" @click="appointed">待处理预约</el-menu-item>
+                            </el-submenu>
+                        </el-submenu>
+                        <el-submenu index="2">
+                            <template slot="title">
+                                <i class="el-icon-search"></i>
+                                <span slot="title">个人消费记录</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="1-4" @click="bill">消费详情</el-menu-item>
+                                <el-menu-item index="1-5" @click="complaint">查看投诉</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-submenu index="3">
+                            <template slot="title">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">车位管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="1-6" @click="myCarport">个人车位</el-menu-item>
+                                <el-menu-item index="1-7" @click="carportAdd">申请车位</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-menu-item index="4" @click="personal">
+                            <i class="el-icon-tickets"></i>
+                            <span slot="title">合同管理</span>
+                        </el-menu-item>
+                        <el-menu-item index="5" @click="userMessage">
+                            <i class="el-icon-message"></i>
+                            <span slot="title">查看消息</span>
+                        </el-menu-item>
+                    </el-menu>
+                </el-aside>
+
+                <el-main>
+                    <iframe src="" frameborder="0" name="show"></iframe>
+                </el-main>
+            </el-container>
+        </el-container>
+    </template>
+</div>
+<script src="../../js/user/userMain.js"></script>
+</body>
+</html>

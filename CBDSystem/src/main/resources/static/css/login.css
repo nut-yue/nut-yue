@@ -1,0 +1,39 @@
+body{
+    background-size: cover;
+    background-color: #2d3a4b;
+}
+.main{
+    width: 500px;
+    height: 350px;
+    display: flex;
+    justify-content: space-around;
+    margin: 150px auto;
+}
+.right{
+    flex: 1;
+    height: 100%;
+}
+.rightForm{
+    width: 90%;
+    height: 100%;
+    margin: 0px auto;
+}
+.rightForm h1{
+    color: #fff;
+    text-align: center;
+}
+.rightBtn{
+    text-align: center;
+}
+.rightBtn button{
+    width: 40%;
+}
+.registerMain {
+    width: 200px;
+    height: 600px;
+    margin: 0px auto;
+}
+.btn {
+    width: 100%;
+    text-align: center;
+}

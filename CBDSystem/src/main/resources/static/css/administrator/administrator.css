@@ -1,0 +1,40 @@
+.billInfo{
+    text-align: center;
+}
+.el-tag{
+    width: 200px;
+    height: 50px;
+}
+.el-tag span{
+    line-height: 100%;
+}
+.el-row {
+    margin-bottom: 20px;
+}
+.el-col {
+    border-radius: 4px;
+}
+.grid-content {
+    border-radius: 4px;
+    min-height: 10px;
+}
+.row-bg {
+    padding: 10px 0;
+
+}
+.showInfo{
+    text-align: center;
+}
+.search{
+    margin-left: 20px;
+}
+.search{
+    text-align: center;
+}
+.addressInput{
+    width: 15%;
+    margin-left: 20px;
+}
+.el-table__empty-block{
+    height: initial;
+}

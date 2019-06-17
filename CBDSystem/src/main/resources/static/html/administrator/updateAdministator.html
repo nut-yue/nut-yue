@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>企业用户修改</title>
+    <!--陈云强-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/administrator/updateAdministator.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div style="text-align: center" id="admin">
+    <template>
+    <div class="format1">
+        <h1>查看信息</h1>
+        <el-form :label-position="labelPosition" label-width="150px" :model="form">
+            <el-form-item label="姓名">
+                {{form.administratorName}}
+            </el-form-item>
+            <el-form-item label="工号">
+                {{form.adminName}}
+            </el-form-item>
+            <el-form-item label="联系电话">
+                {{form.administratorPhone}}
+            </el-form-item>
+        </el-form>
+    </div>
+    <div>
+        <el-button type="primary" round @click="info">修改信息</el-button>
+        <el-button type="primary" round @click="password">修改密码</el-button>
+    </div>
+    <el-dialog title="修改信息" :visible.sync="updateDialogVisible">
+        <div v-if="updateInfo">
+            <el-form :model="form">
+                <el-form-item label="姓名">
+                    {{form.administratorName}}
+                </el-form-item>
+                <el-form-item label="工号">
+                    {{form.adminName}}
+                </el-form-item>
+                <el-form-item label="联系电话">
+                    <el-input v-model="form.administratorPhone">{{form.companyPhone}}</el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="updateInfos">修改</el-button>
+                <el-button type="primary" @click="back">返回</el-button>
+            </div>
+        </div>
+        <div v-else>
+            <el-form :model="form">
+                <el-form-item label="请输入新密码">
+                    <el-input v-model="form.newPwd" type="password">{{form.newPwd}}</el-input>
+                </el-form-item>
+                <el-form-item label="请确认密码">
+                    <el-input v-model="form.rePwd" type="password">{{form.rePwd}}</el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="updatePassword">修改</el-button>
+                <el-button type="primary" @click="back">返回</el-button>
+            </div>
+        </div>
+    </el-dialog>
+    </template>
+</div>
+
+
+
+<script src="../../js/administrator/updateAdministator.js"></script>
+
+
+</body>
+</html>

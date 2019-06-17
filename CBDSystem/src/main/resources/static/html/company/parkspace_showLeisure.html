@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>空闲车位</title>
+    <!--陈云强-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/company/parkspace_showLeisure.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <el-row>
+            <el-col :span="24">
+                <div class="grid-content search">
+                    <el-input v-model="carportAddress" placeholder="车位地址" class="addressInput"></el-input>
+                    <el-button type="primary"  round @click="find" class="search">查询</el-button>
+                </div>
+            </el-col>
+        </el-row>
+        <div class="showImg">
+            <el-card v-for="(o, index) in showCarport" :key="index" :body-style="{ padding: '0px' }">
+                <div class="imgDiv">
+                    <!--车位照片-->
+                    <img :src="'../../image/'+o.parkspaceImage" class="image">
+                </div>
+                <div style="padding: 14px;">
+                    <span>车位号：{{o.parkspaceNumber}}</span>
+                    <span>车位地址：{{o.parkspaceAddress}}</span>
+                    <div class="bottom clearfix">
+                        <el-button type="primary" class="button" @click="showInfo(o)">查看详情</el-button>
+                    </div>
+                </div>
+            </el-card>
+        </div>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="currentPage"
+                    :page-size="pageSize"
+                    layout="prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+        <el-dialog title="查看详情" :visible.sync="centerDialogVisible">
+            <div class="div_centre">
+                <el-form :model="form">
+                    <el-form-item label="车位地址：" :label-width="formLabelWidth">
+                        {{form.parkspaceAddress}}
+                    </el-form-item>
+                    <el-form-item label="车位编号：" :label-width="formLabelWidth">
+                        {{form.parkspaceNumber}}
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+                </div>
+            </div>
+        </el-dialog>
+    </template>
+</div>
+<script src="../../js/company/parkspace_showLeisure.js"></script>
+
+</body>
+</html>

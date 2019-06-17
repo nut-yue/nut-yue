@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--胡平-->
+    <meta charset="UTF-8">
+    <title>外部合约</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../css/company/companyBill.css">
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <el-col :span="24">
+            <div class="grid-content bg-purple billInfo">
+                <el-button type="primary" round @click="showAdd(); dialogFormVisible = true;" class="search">新增合约
+                </el-button>
+                <el-date-picker
+                        type="daterange"
+                        align="right"
+                        unlink-panels
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        :picker-options="pickerOptions2"
+                        value-format="yyyy-MM-dd"
+                        class="search"
+                        v-model="date">
+                </el-date-picker>
+
+                <el-select v-model="status" clearable placeholder="请选择合同状态">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+                <el-button type="primary" round @click="find" class="search">查询</el-button>
+            </div>
+        </el-col>
+
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    label="合同单位"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.externalUnit }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="成交价格"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.externalPrice }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="合同生效日期"
+                    align="center">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.externalffectivedate }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="合同截止日期"
+                    align="center">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.externalDeadline }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="合同状态"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.externalContractStatus }}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作"
+                             align="center" width="300px">
+                <template slot-scope="scope">
+                    <el-button type="primary" @click="show(scope.$index, scope.row);dialogPrimaryVisible = true;">查看
+                    </el-button>
+
+                    <el-button type="primary" :disabled="scope.row.externalContractStatus!='已生效'"
+                               @click="show(scope.$index, scope.row);centerFromVisible=true;">续约
+                    </el-button>
+
+                    <template>
+                        <el-button type="danger" :disabled="scope.row.externalContractStatus!='已生效'"
+                                   @click="delet(scope.$index, scope.row)">解约
+                        </el-button>
+                    </template>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total"
+                    align="center">
+            </el-pagination>
+        </div>
+
+
+        <!-------------------------租户签约模态框-->
+        <el-dialog title="查看合约" :visible.sync="dialogPrimaryVisible">
+            <el-form :model="showData">
+                <el-form-item label="合同编号：" :label-width="formLabelWidth">
+                    {{showData.externalNo}}
+                </el-form-item>
+                <el-form-item label="合同单位：" :label-width="formLabelWidth">
+                    {{showData.externalUnit}}
+                </el-form-item>
+                <el-form-item label="平台联系人：" :label-width="formLabelWidth">
+                    {{showData.externaLinkman}}
+                </el-form-item>
+                <el-form-item label="平台联系电话：" :label-width="formLabelWidth">
+                    {{showData.externaLinkmanTel}}
+                </el-form-item>
+                <el-form-item label="对方联系人：" :label-width="formLabelWidth">
+                    {{showData.externalContact}}
+                </el-form-item>
+                <el-form-item label="对方联系电话：" :label-width="formLabelWidth">
+                    {{showData.externalPhone}}
+                </el-form-item>
+                <el-form-item label="车位详细地址：" :label-width="formLabelWidth">
+                    {{showData.externalAddress}}
+                </el-form-item>
+                <el-form-item label="合同生效日期：" :label-width="formLabelWidth">
+                    {{showData.externalffectivedate}}
+                </el-form-item>
+                <el-form-item label="合同截止日期：" :label-width="formLabelWidth">
+                    {{showData.externalDeadline}}
+                </el-form-item>
+                <el-form-item label="成交价格：" :label-width="formLabelWidth">
+                    {{showData.externalPrice}}
+                </el-form-item>
+                <el-form-item label="合同状态：" :label-width="formLabelWidth">
+                    {{showData.externalContractStatus}}
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogPrimaryVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!--</div>-->
+        <!-----------------------新增合约  字段没写完哈---------->
+        <el-dialog title="新增合约" :visible.sync="dialogFormVisible">
+            <el-form :model="showData">
+                <el-form-item label="合同编号：" :label-width="formLabelWidth">
+                    <el-input placeholder="合同编号" v-model="showData.externalNo" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="合同单位：" :label-width="formLabelWidth">
+                    <el-input placeholder="合同单位" v-model="showData.externalUnit" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="企业联系人：" :label-width="formLabelWidth">
+                    <el-input placeholder="企业联系人" v-model="showData.externalContact" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="企业联系电话：" :label-width="formLabelWidth">
+                    <el-input placeholder="企业联系电话" v-model="showData.externalPhone" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="详细地址：" :label-width="formLabelWidth">
+                    <el-input placeholder="详细地址" v-model="showData.externalAddress" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="合同生效日期：" :label-width="formLabelWidth">
+                    <el-date-picker
+                            v-model="showData.externalffectivedate"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="合同截止日期：" :label-width="formLabelWidth">
+                    <el-date-picker
+                            v-model="showData.externalDeadline"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="成交价格：" :label-width="formLabelWidth">
+                    <el-input placeholder="成交价格" v-model="showData.externalPrice" class="inputClass"></el-input>
+                </el-form-item>
+                <!--<el-form-item label="合同复印件：" :label-width="formLabelWidth">-->
+                    <!--<el-input placeholder="合同复印件" v-model="showData.externalCopy" class="inputClass"></el-input>-->
+                <!--</el-form-item>-->
+                <el-form-item label="平台联系人：" :label-width="formLabelWidth">
+                    <el-input placeholder="平台联系人" v-model="showData.externaLinkman" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="平台联系电话：" :label-width="formLabelWidth">
+                    <el-input placeholder="平台联系电话" v-model="showData.externaLinkmanTel" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="已添加车位：" :label-width="formLabelWidth">
+                    <el-tag
+                            v-for="tag in stallBeans"
+                            :key="tag.imageAddress"
+                            closable
+                            @close="handleClose(tag)">
+                        {{tag.address+tag.areaName+tag.startNumber+"-"+tag.endNumber}}
+                    </el-tag>
+                </el-form-item>
+
+                <el-button type="primary" @click="addCarportVisible = true">添加车位</el-button>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogFormVisible = false">返回</el-button>
+                <el-button type="primary" @click="add(); dialogFormVisible = false">添加合约</el-button>
+            </div>
+        </el-dialog>
+
+
+        <!-----------------------续约合约  字段没写完哈---------->
+        <el-dialog title="续约合约" :visible.sync="centerFromVisible">
+            <el-form :model="updateData">
+                <el-form-item label="原合同ID：" :label-width="formLabelWidth">
+                    {{updateData.originalBean.externalId}}
+                </el-form-item>
+                <el-form-item label="合同编号：" :label-width="formLabelWidth">
+                    <el-input placeholder="合同编号" v-model="updateData.externalNo" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="合同单位：" :label-width="formLabelWidth">
+                    <el-input placeholder="合同单位" v-model="updateData.externalUnit" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="企业联系人：" :label-width="formLabelWidth">
+                    <el-input placeholder="企业联系人" v-model="updateData.externalContact" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="详细地址：" :label-width="formLabelWidth">
+                    <el-input placeholder="详细地址" v-model="updateData.externalAddress" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="企业联系电话：" :label-width="formLabelWidth">
+                    <el-input placeholder="企业联系电话" v-model="updateData.externalPhone" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="合同生效日期：" :label-width="formLabelWidth">
+                    <el-date-picker
+                            v-model="updateData.externalffectivedate"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="合同截止日期：" :label-width="formLabelWidth">
+                    <el-date-picker
+                            v-model="updateData.externalDeadline"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="成交价格：" :label-width="formLabelWidth">
+                    <el-input placeholder="成交价格" v-model="updateData.externalPrice" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="合同复印件：" :label-width="formLabelWidth">
+                    <el-input placeholder="合同复印件" v-model="updateData.externalCopy" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="平台联系人：" :label-width="formLabelWidth">
+                    <el-input placeholder="平台联系人" v-model="updateData.externaLinkman" class="inputClass"></el-input>
+                </el-form-item>
+                <el-form-item label="平台联系电话：" :label-width="formLabelWidth">
+                    <el-input placeholder="平台联系电话" v-model="updateData.externaLinkmanTel" class="inputClass"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="update();centerFromVisible=false">续约合约</el-button>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="添加车位信息" :visible.sync="addCarportVisible">
+            <el-form ref="form" :model="form" label-width="150px">
+                <el-form-item label="车位地址：">
+                    <el-input v-model="carportForm.address" style="width: 500px;"></el-input>
+                </el-form-item>
+                <el-form-item label="区域名：">
+                    <el-input v-model="carportForm.areaName" style="width: 500px;"></el-input>
+                </el-form-item>
+                <el-form-item label="车位起始编号：">
+                    <el-input v-model="carportForm.startNumber" style="width: 500px;"></el-input>
+                </el-form-item>
+                <el-form-item label="车位结束编号：">
+                    <el-input v-model="carportForm.endNumber" style="width: 500px;"></el-input>
+                </el-form-item>
+                <el-form-item label="车位照片：" style="width: 500px;">
+                    <el-upload
+                            ref="uploadFile"
+                            class="upload-demo"
+                            :on-success="onSuccessDoc"
+                            :action="url"
+                            :on-preview="handlePreview"
+                            :on-remove="handleRemove"
+                            :file-list="fileList2"
+                            accept=".gif, .png,.jpg"
+                            :auto-upload="false"
+                            :limit="1"
+                            multiple
+                            list-type="picture">
+                        <el-button size="small" type="primary"
+                        >点击上传
+                        </el-button>
+                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="addCarportVisible = false">返回</el-button>
+                <el-button type="primary" @click="addCarport(); addCarportVisible = false">添加车位</el-button>
+            </div>
+        </el-dialog>
+    </template>
+</div>
+<script src="../../js/administrator/external.js"></script>
+</body>
+</html>
