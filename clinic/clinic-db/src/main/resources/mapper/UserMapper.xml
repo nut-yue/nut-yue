@@ -7,7 +7,7 @@
     <resultMap id="Roles" type="com.mall.clinicdb.entity.Role"></resultMap>
     <resultMap id="permissions" type="com.mall.clinicdb.entity.Permission"></resultMap>
 
-    <select id="getRoles" parameterType="string"  resultMap="Roles">
+    <select id="getRoles" parameterType="string"  resultMap="Roles" >
         select r.roleId,roleName from clinic_user_role c left join clinic_role r on c.roleId = r.roleId where c.userId = #{userId}
     </select>
 
