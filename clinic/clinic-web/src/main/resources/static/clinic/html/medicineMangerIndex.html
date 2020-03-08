@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../css/medicineMangerIndex.css">
+    <!--引入echarts.js-->
+    <script src="../../common/js/echarts.min.js"></script>
+    <!-- 先引入 Vue -->
+    <script src="../../common/js/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-row :gutter="270" style="margin-top:30px">
+        <el-col :span="3" :offset="1" style="background-color: #8cc5ff">
+            <div style="width: 230px;height: 80px;background-color: #409eff;border-radius: 6px" class="panel-box">
+                <span class="panel-style">今日进货量：</span>
+            </div>
+        </el-col>
+        <el-col :span="3" :offset="1">
+            <div style="width: 230px;height: 80px;background-color: #19ffca;border-radius: 6px" class="panel-box">
+                <span class="panel-style">今日出货量：</span>
+            </div>
+        </el-col>
+        <el-col :span="3" :offset="1">
+            <div style="width: 230px;height: 80px;background-color: #67c23a;border-radius: 6px" class="panel-box">
+                <span class="panel-style">总出货量：</span>
+            </div>
+        </el-col>
+        <el-col :span="3" :offset="1">
+            <div style="width: 230px;height: 80px;background-color: #f56c6c;border-radius: 6px" class="panel-box">
+                <span class="panel-style">总进货量：</span>
+            </div>
+        </el-col>
+    </el-row>
+    <el-row style="margin-top: 40px;float: left" :gutter="180">
+        <el-col :span="10" :offset="1">
+            <div style="width: 540px;height: 360px;border: 1px solid #c2c2c2;float: left;margin-left: 3%" id="chart1"></div>
+        </el-col>
+        <el-col :span="10">
+            <div style="width: 540px;height: 360px;border: 1px solid #c2c2c2;float: right;margin-right: -9%" id="chart2"></div>
+        </el-col>
+    </el-row>
+</div>
+</body>
+<script src="../../common/js/jquery-3.3.1.min.js"></script>
+<script src="../js/medicineMangerIndex.js"></script>
+</html>

@@ -1,0 +1,25 @@
+body {
+    margin: 0 0;
+}
+
+.edit {
+    width: 800px;
+    margin: 30px auto;
+}
+
+.medicine {
+    width: 45%;
+}
+
+.panel-box {
+    padding-top: 10px;
+    margin : 20px 3% 20px 3%;
+    float: left;
+}
+
+.panel-style {
+    margin-left: 10px;
+    color: white;
+    font-size: 16px;
+    font-family: "Microsoft YaHei", arial, tahoma, \5b8b\4f53, sans-serif;
+}

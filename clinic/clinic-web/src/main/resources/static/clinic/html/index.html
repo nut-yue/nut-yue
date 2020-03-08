@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人用户</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="../../common/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="main">
+    <template>
+        <el-container>
+            <el-header>
+                <el-row>
+                    <el-col :span="4"><div class="grid-content bg-purple">
+                        <el-link type="primary" icon="el-icon-s-promotion" :underline="false" @click="collapseStatus" class="logo">clinic</el-link>
+                    </div></el-col>
+                    <el-col :span="20"><div class="grid-content bg-purple">
+                        <div class="login">
+                            <el-dropdown>
+                                 <span class="el-dropdown-link" :model="user">
+                                     <i class="el-icon-s-custom"></i>{{user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
+                                 </span>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item>
+                                        <el-link type="primary" icon="el-icon-search" @click="myInfo">查看个人信息</el-link>
+                                    </el-dropdown-item>
+                                    <el-dropdown-item>
+                                        <el-link type="warning" @click="logout()" icon="el-icon-switch-button">注销</el-link>
+                                    </el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                        </div>
+                    </div></el-col>
+                </el-row>
+            </el-header>
+            <el-container>
+                <el-aside width="auto"
+                          @mouseenter.native="collapseOpen"
+                          @mouseleave.native="collapseClose">
+                    <el-menu
+                            default-active="1"
+                            class="el-menu-vertical-demo"
+                            background-color="#2d3a4b"
+                            text-color="#fff"
+                            active-text-color="#ffd04b"
+                            :collapse="isCollapse">
+                        <el-menu-item index="1" @click="userMessage">
+                            <i class="el-icon-message"></i>
+                            <span slot="title">首页</span>
+                        </el-menu-item>
+                        <el-submenu index="2">
+                            <template slot="title">
+                                <i class="el-icon-goods"></i>
+                                <span>用户管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="2-1" @click="goodsList">会员管理</el-menu-item>
+                                <el-menu-item index="2-2" @click="goodsList">收货地址</el-menu-item>
+                                <el-menu-item index="2-3" @click="goodsList">会员收藏</el-menu-item>
+                                <el-menu-item index="2-4" @click="goodsList">会员足迹</el-menu-item>
+                                <el-menu-item index="2-5" @click="goodsList">搜索历史</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-submenu index="3">
+                            <template slot="title">
+                                <i class="el-icon-search"></i>
+                                <span slot="title">商城管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="3-1" @click="goodsList">行政区域</el-menu-item>
+                                <el-menu-item index="3-2" @click="goodsList">品牌制造商</el-menu-item>
+                                <el-menu-item index="3-3" @click="goodsList">商品类目</el-menu-item>
+                                <el-menu-item index="3-4" @click="goodsList">订单管理</el-menu-item>
+                                <el-menu-item index="3-5" @click="goodsList">通用问题</el-menu-item>
+                                <el-menu-item index="3-6" @click="goodsList">关键词</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-submenu index="4">
+                            <template slot="title">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">商品管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="4-1" @click="goodsList">商品列表</el-menu-item>
+                                <el-menu-item index="4-2" @click="goodsList">商品上架</el-menu-item>
+                                <el-menu-item index="4-3" @click="goodsList">商品上架</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-submenu index="5">
+                            <template slot="title">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">推广管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="5-1" @click="goodsList">广告管理</el-menu-item>
+                                <el-menu-item index="5-2" @click="goodsList">优惠劵管理</el-menu-item>
+                                <el-menu-item index="5-3" @click="goodsList">专题管理</el-menu-item>
+                                <el-menu-item index="5-4" @click="goodsList">团购管理</el-menu-item>
+                                <el-menu-item index="5-5" @click="goodsList">团购活动</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-submenu index="6">
+                            <template slot="title">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">系统管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="6-1" @click="goodsList">管理员</el-menu-item>
+                                <el-menu-item index="6-2" @click="goodsList">操作日志</el-menu-item>
+                                <el-menu-item index="6-3" @click="goodsList">角色管理</el-menu-item>
+                                <el-menu-item index="6-4" @click="goodsList">对象存储</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-submenu index="7">
+                            <template slot="title">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">配置管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="6-1" @click="goodsList">商城配置</el-menu-item>
+                                <el-menu-item index="6-2" @click="goodsList">运费配置</el-menu-item>
+                                <el-menu-item index="6-3" @click="goodsList">订单配置</el-menu-item>
+                                <el-menu-item index="6-4" @click="goodsList">小程序配置</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-submenu index="8">
+                            <template slot="title">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">统计报表</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="6-1" @click="goodsList">用户统计</el-menu-item>
+                                <el-menu-item index="6-2" @click="goodsList">订单统计</el-menu-item>
+                                <el-menu-item index="6-3" @click="goodsList">商品统计</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                    </el-menu>
+                </el-aside>
+
+                <el-main>
+                    <iframe src="medicineMangerIndex.html" frameborder="0" name="show"></iframe>
+                </el-main>
+            </el-container>
+        </el-container>
+    </template>
+</div>
+<script src="../js/main.js"></script>
+
+</body>
+</html>
