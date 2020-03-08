@@ -7,7 +7,9 @@
     <option name="showDoc" value="false" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6911dcb2-6717-4304-acd2-87c88d596235" name="Default Changelist" comment="" />
+    <list default="true" id="6911dcb2-6717-4304-acd2-87c88d596235" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,6 +99,7 @@
     </option>
   </component>
   <component name="ProjectId" id="1VNJRYceZMjFjxFt8ZOAWC1theY" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -234,11 +237,6 @@
                 <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
                 <item name="Spring Boot" type="7427dc5b:ServiceModel$ServiceGroupNode" />
               </path>
-              <path>
-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-                <item name="Spring Boot" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-                <item name="Running" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              </path>
             </expand>
             <select />
           </treeState>
@@ -350,11 +348,24 @@
       <workItem from="1583463526838" duration="1245000" />
       <workItem from="1583564555501" duration="2680000" />
       <workItem from="1583654931042" duration="3236000" />
+      <workItem from="1583673920431" duration="264000" />
     </task>
+    <task id="LOCAL-00001" summary="配置文件修改">
+      <created>1583674050549</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1583674050549</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="配置文件修改" />
+    <option name="LAST_COMMIT_MESSAGE" value="配置文件修改" />
   </component>
   <component name="WindowStateProjectService">
     <state x="275" y="29" key="#Inspections" timestamp="1579607295340">
@@ -401,6 +412,10 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="413" y="117" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.738@0.0.1366.738" timestamp="1583229559733" />
+    <state x="295" y="0" key="CommitChangelistDialog2" timestamp="1583674049819">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="295" y="0" key="CommitChangelistDialog2/0.0.1366.738@0.0.1366.738" timestamp="1583674049819" />
     <state x="92" y="92" width="1182" height="554" key="DiffContextDialog" timestamp="1577091612470">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
@@ -465,6 +480,10 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="213" y="26" key="Maven.ArtifactSearchDialog/0.0.1366.738@0.0.1366.738" timestamp="1578535906252" />
+    <state x="392" y="84" key="MultipleFileMergeDialog" timestamp="1583674201612">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="392" y="84" key="MultipleFileMergeDialog/0.0.1366.738@0.0.1366.738" timestamp="1583674201612" />
     <state x="254" y="33" key="Registry" timestamp="1577090387160">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
@@ -497,10 +516,10 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="259" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.738@0.0.1366.738" timestamp="1583232500456" />
-    <state x="477" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1583673932330">
+    <state x="477" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1583674192501">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="477" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.738@0.0.1366.738" timestamp="1583673932330" />
+    <state x="477" y="286" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.738@0.0.1366.738" timestamp="1583674192501" />
     <state x="303" y="95" width="759" height="548" key="find.popup" timestamp="1583232507257">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
